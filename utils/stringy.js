@@ -44,7 +44,7 @@ function getDefaultEmbed() {
 		.setFooter(
 			{
 				text: `Sausage ${versionNum} - Do /help for more commands`,
-				iconURL: 'https://cdn.discordapp.com/avatars/815669451658887209/e33ccdcfb43ac9bde63a1d86c63e5de2.webp',
+				iconURL: 'https://cdn.discordapp.com/avatars/815669451658887209/3a1335c7070a45f771ab326adad5a512.webp',
 			});
 }
 
