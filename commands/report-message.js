@@ -6,28 +6,24 @@ module.exports = {
 		.setType(ApplicationCommandType.Message),
 	async execute(interaction) {
 		try {
+			const guild = await interaction.client.guilds.cache.get(process.env.GUILD_ID);
 			// Throws error if user isn't in the guild
-			if (interaction.guildId !== process.env.GUILD_ID) {
-				await interaction.reply({ content: 'Sorry, you can\'t use that command here.', ephemeral: true });
-			} else {
-				const guild = await interaction.client.guilds.cache.get(process.env.GUILD_ID);
-				await guild.members.fetch(interaction.user.id);
-				const noteRow = new ActionRowBuilder();
-				const noteBox = new TextInputBuilder()
-					.setCustomId('anonNote_content')
-					.setLabel('Note')
-					.setPlaceholder('What\'s on your mind?')
-					.setStyle(TextInputStyle.Paragraph)
-					.setMaxLength(2000)
-					.setValue(`<Type message here>\n\nMessage from \`@${interaction.targetMessage.author.username}\` (${interaction.targetMessage.url})\n>>> ${getExcerpt(interaction.targetMessage.content)}`)
-					.setRequired(true);
-				noteRow.addComponents(noteBox);
-				const modal = new ModalBuilder()
-					.setCustomId(`anonNoteModal_${interaction.user.id}_`)
-					.setTitle('Submit Anonymous Note')
-					.addComponents(noteRow);
-				await interaction.showModal(modal);
-			}
+			await guild.members.fetch(interaction.user.id);
+			const noteRow = new ActionRowBuilder();
+			const noteBox = new TextInputBuilder()
+				.setCustomId('anonNote_content')
+				.setLabel('Note')
+				.setPlaceholder('What\'s on your mind?')
+				.setStyle(TextInputStyle.Paragraph)
+				.setMaxLength(2000)
+				.setValue(`<Type message here>\n\nMessage from \`@${interaction.targetMessage.author.username}\` (${interaction.targetMessage.url})\n>>> ${getExcerpt(interaction.targetMessage.content)}`)
+				.setRequired(true);
+			noteRow.addComponents(noteBox);
+			const modal = new ModalBuilder()
+				.setCustomId(`anonNoteModal_${interaction.user.id}_`)
+				.setTitle('Submit Anonymous Note')
+				.addComponents(noteRow);
+			await interaction.showModal(modal);
 		} catch (e) {
 			console.log('Error while showing anon-quote modal: ', e);
 			await interaction.reply('Sorry, but you don\'t have permission to use this command.');
