@@ -30,7 +30,7 @@ module.exports = {
 			await interaction.showModal(modal);
 		} catch (e) {
 			console.log(e.message);
-			if (e.message === 'Unknown Member') {
+			if (e.rawError.message === 'Unknown Member') {
 				console.log('Attempt from outside to use anon-note');
 				await interaction.reply({ content: 'Sorry, you don\'t have permission to use this command.', ephemeral: true });
 			} else {
