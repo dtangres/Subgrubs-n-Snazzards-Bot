@@ -71,7 +71,7 @@ module.exports = {
 			result = await fetchSQL(query, [name, serverID]);
 			const userList = result.map(x => `<@${x.snowflake}>`).join(' ');
 			const announcement = `Ping by ${interaction.member.displayName}!`;
-			await interaction.reply({ content: `${announcement}\n\n======\n\n${userList}`, embeds: [getDefaultEmbed().setDescription(`Pinglist \`${name}\` invoked!\n\nUsers pinged: \`${result.length}\``)], components: pinglistMessageContents });
+			await interaction.reply({ content: `${announcement}\n\n-# ${userList}`, embeds: [getDefaultEmbed().setDescription(`Pinglist \`${name}\` invoked!\n\nUsers pinged: \`${result.length}\``)], components: pinglistMessageContents });
 		} else if (operation === 'assess') {
 			query = 'SELECT `snowflake` FROM `pinglist` WHERE `record` = \'subscriber\' AND `name` = ? AND `serverID` = ?;';
 			result = await fetchSQL(query, [name, serverID]);
@@ -83,7 +83,7 @@ module.exports = {
 				userList.push(userName !== null ? `- \`${userName.user.username}#${userName.user.discriminator}\`` : '- `UNKNOWN USER`');
 			}
 			const userNames = userList.map(x => x).join('\n');
-			await interaction.reply({ content: `The following users are subscribed to the pinglist \`${name}\`:\n${userNames}`, ephemeral: true });
+			await interaction.reply({ content: `The following users are subscribed to the pinglist \`${name}\`:\n-# ${userNames}`, ephemeral: true });
 		} else if (operation === 'rename') {
 			const modal = new ModalBuilder()
 				.setCustomId(`pinglist_rename_${name}_${user}_${serverID}`)
@@ -103,7 +103,7 @@ module.exports = {
 			query = 'SELECT `snowflake` FROM `pinglist` WHERE `record` = \'subscriber\' AND `name` = ? AND `serverID` = ?';
 			result = await fetchSQL(query, [name, serverID]);
 			const announcement = `Ping by ${interaction.member.displayName}!`;
-			await interaction.reply({ content: `${announcement}\n\n======`, embeds: [getDefaultEmbed().setDescription(`Pinglist \`${name}\` bestowed!`)], components: pinglistMessageContents });
+			await interaction.reply({ content: `${announcement}\n\n`, embeds: [getDefaultEmbed().setDescription(`Pinglist \`${name}\` bestowed!`)], components: pinglistMessageContents });
 		} else {
 			const modal = new ModalBuilder()
 				.setCustomId(`pinglist_delete_${name}_${user}_${serverID}`)
