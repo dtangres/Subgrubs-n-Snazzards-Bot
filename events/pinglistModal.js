@@ -38,17 +38,19 @@ module.exports = {
 			const target = interaction.fields.getTextInputValue(`pinglist_huddle_target_${name}_${serverID}`);
 			query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `snowflake` = ? AND `serverID` = ?';
 			const queryResult = await fetchSQL(query, [name, target, serverID]);
-			const user = (await interaction.guild.members.fetch(target)) ?? null;
-			if (user) {
-				if (queryResult.length) {
-					const command = "UPDATE `pinglist` SET `record` = 'owner' WHERE `name` = ? AND `snowflake` = ? AND `serverID` = ?";
-					await fetchSQL(command, [name, target, serverID]);
-					await interaction.reply({ content: `Successfully made the target part of the pinglist '${name}'!`, ephemeral: true });
-				} else {
-					await interaction.reply({ content: `Your target must be subscribed to the pinglist '${name}'!`, ephemeral: true });
-				}
-			} else {
-				await interaction.reply({ content: `The user you specified was not found in this server. Please recheck your snowflake.`, ephemeral: true });
+			try {
+				const user = (await interaction.guild.members.fetch(target)) ?? null;
+				if (user) {
+					if (queryResult.length) {
+						const command = "UPDATE `pinglist` SET `record` = 'owner' WHERE `name` = ? AND `snowflake` = ? AND `serverID` = ?";
+						await fetchSQL(command, [name, target, serverID]);
+						await interaction.reply({ content: `Successfully made the target part of the pinglist '${name}'!`, ephemeral: true });
+					} else {
+						await interaction.reply({ content: `Your target must be subscribed to the pinglist '${name}'!`, ephemeral: true });
+					}
+				} 
+			} catch (e) {
+				await interaction.reply({ content: `Something went wrong. Please recheck your input.`, ephemeral: true });
 			}
 		}
 	},
