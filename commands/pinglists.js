@@ -17,7 +17,7 @@ module.exports = {
 		if (!result.length) {
 			embed.setDescription('Looks like you don\'t have any pinglists in this server! You can make one using `/pinglist create name`!');
 		} else {
-			embed.setDescription('You have the following pinglists in this server:\n' + result.map(x => `- \`${x.name}\` (**${x.count - 1}** subscriber${(x.count - 1 === 1 ? '' : 's')})`).join('\n'));
+			embed.setDescription('You have the following pinglists in this server:\n' + result.map(x => `- \`${x.name}\` (**${x.count}** member${(x.count === 1 ? '' : 's')})`).join('\n'));
 		}
 		interaction.reply({ embeds: [embed], ephemeral: true });
 	},

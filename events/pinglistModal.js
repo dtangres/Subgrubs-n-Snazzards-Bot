@@ -32,6 +32,24 @@ module.exports = {
 				await fetchSQL(query, [newName, name, serverID]);
 				await interaction.reply({ content: `Renamed pinglist \`${name}\` to \`${newName}\`.`, ephemeral: true });
 			}
+		} else if (id.startsWith("pinglist_huddle")) {
+			const details = id.replace('pinglist_huddle_', '').split("_");
+			const [name, invoker, serverID] = details;
+			const target = interaction.fields.getTextInputValue(`pinglist_huddle_target_${name}_${serverID}`);
+			query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `snowflake` = ? AND `serverID` = ?';
+			const queryResult = await fetchSQL(query, [name, target, serverID]);
+			const user = (await interaction.guild.members.fetch(target)) ?? null;
+			if (user) {
+				if (queryResult.length) {
+					const command = "UPDATE `pinglist` SET `record` = 'owner' WHERE `name` = ? AND `snowflake` = ? AND `serverID` = ?";
+					await fetchSQL(command, [name, target, serverID]);
+					await interaction.reply({ content: `Successfully made the target part of the pinglist '${name}'!`, ephemeral: true });
+				} else {
+					await interaction.reply({ content: `Your target must be subscribed to the pinglist '${name}'!`, ephemeral: true });
+				}
+			} else {
+				await interaction.reply({ content: `The user you specified was not found in this server. Please recheck your snowflake.`, ephemeral: true });
+			}
 		}
 	},
 };

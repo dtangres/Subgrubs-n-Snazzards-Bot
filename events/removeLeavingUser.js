@@ -8,12 +8,22 @@ module.exports = {
 		// Retrieve snowflake of banned user
 		const bannedUserSnowflake = interaction.user.id;
 
-		// Get all pinglists the banned user authored, delete them
-		let query = 'SELECT `name` FROM `pinglist` WHERE `snowflake` = ? AND `record` = \'author\'';
+		// Get all orphaned pinglists the banned user owned, delete them
+		let query = 'SELECT `name` FROM `pinglist` WHERE `snowflake` = ? AND `record` = \'owner\'';
 		const bannedUserPinglists = await fetchSQL(query, [bannedUserSnowflake]);
 		for (const record of bannedUserPinglists) {
-			query = 'DELETE FROM `pinglist` WHERE `name` = ?';
-			await fetchSQL(query, [record.name]);
+			query = 'SELECT * FROM `pinglist` WHERE `record` = \'owner\' AND `name` = ?';
+			const onwerNumber = await fetchSQL(query, [record.name]);
+			if (ownerNumber === 1) {
+				// Destroy orphans
+				query = 'DELETE FROM `pinglist` WHERE `name` = ?';
+				await fetchSQL(query, [record.name]);
+			} else {
+				// Remove entry
+				query = 'DELETE FROM `pinglist` WHERE `snowflake` = ? AND `record` = \'owner\' AND `name` = ?';
+				await fetchSQL(query, [record.name]);
+			}
+			
 		}
 
 		// Remove banned user from remaining pinglists
