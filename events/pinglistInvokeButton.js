@@ -9,11 +9,8 @@ module.exports = {
 		const user = interaction.user.id;
 		if (id.startsWith('pinglist_join_')) {
 			const details = id.replace('pinglist_join_', '').split('_');
-			const [hash, serverID] = details;
-			console.log(id, details)
-			let query = 'SELECT `name` FROM `pinglist` WHERE `snowflake` = ? AND `serverID` = ? AND record = \'hash\''
-			let name = (await fetchSQL(query, [hash, serverID]))[0].name;
-			query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `record` = \'owner\' AND `snowflake` = ? AND `serverID` = ?';
+			const [name, serverID] = details;
+			let query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `record` = \'owner\' AND `snowflake` = ? AND `serverID` = ?';
 			let result = await fetchSQL(query, [name, user, serverID]);
 			if (result.length) {
 				await interaction.reply({ content: 'You are an owner of this pinglist; you don\'t need to join!', ephemeral: true });
@@ -30,10 +27,8 @@ module.exports = {
 			}
 		} else if (id.startsWith('pinglist_leave_')) {
 			const details = id.replace('pinglist_leave_', '').split('_');
-			const [hash, serverID] = details;
-			let query = 'SELECT `name` FROM `pinglist` WHERE `snowflake` = ? AND `serverID` = ? AND record = \'hash\''
-			let name = (await fetchSQL(query, [hash, serverID]))[0].name;
-			query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `record` = \'owner\' AND `snowflake` = ? AND `serverID` = ?';
+			const [name, serverID] = details;
+			let query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `record` = \'owner\' AND `snowflake` = ? AND `serverID` = ?';
 			let result = await fetchSQL(query, [name, user, serverID]);
 			if (result.length) {
 				query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `record` = \'owner\' AND `serverID` = ?';

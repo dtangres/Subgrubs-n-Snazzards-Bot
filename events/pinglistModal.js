@@ -9,10 +9,9 @@ module.exports = {
 		const id = interaction.customId;
 		if (id.startsWith('pinglist_delete_')) {
 			const details = id.replace('pinglist_delete_', '').split('_');
-			const [hash, user, serverID] = details;
-			let query = 'SELECT `name` FROM `pinglist` WHERE `snowflake` = ? AND `serverID` = ?'
-			let name = (await fetchSQL(query, [hash, serverID]))[0].name;
-			const confirm = interaction.fields.getTextInputValue(`pinglist_delete_confirm_${hash}_${user}_${serverID}`);
+			const [name, user, serverID] = details;
+			const confirm = interaction.fields.getTextInputValue(`pinglist_delete_confirm_${name}_${user}_${serverID}`);
+			let query;
 			if (confirm.toLowerCase() === name) {
 				query = 'DELETE FROM `pinglist` WHERE `name` = ? AND `serverID` = ?';
 				await fetchSQL(query, [name, serverID]);
@@ -22,13 +21,9 @@ module.exports = {
 			}
 		} else if (id.startsWith('pinglist_rename_')) {
 			const details = id.replace('pinglist_rename_', '').split('_');
-			const [hash, user, serverID] = details;
-			console.log(id, details)
-			let query = 'SELECT `name` FROM `pinglist` WHERE `snowflake` = ? AND `serverID` = ? AND record = \'hash\''
-			let name = (await fetchSQL(query, [hash, serverID]))[0].name;
-			console.log("AHUIGJGDHJ", name, hash, serverID)
-			const newName = interaction.fields.getTextInputValue(`pinglist_rename_newName_${hash}_${user}_${serverID}`);
-			query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `serverID` = ?';
+			const [name, user, serverID] = details;
+			const newName = interaction.fields.getTextInputValue(`pinglist_rename_newName_${name}_${user}_${serverID}`);
+			let query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `serverID` = ?';
 			const queryResult = await fetchSQL(query, [newName, serverID]);
 			if (queryResult.length) {
 				await interaction.reply({ content: 'Sorry, a pinglist under that name already exists in the system. Please select another name.\n(If this presents a major inconvenience, ping Meme.)', ephemeral: true });
@@ -39,10 +34,8 @@ module.exports = {
 			}
 		} else if (id.startsWith("pinglist_huddle")) {
 			const details = id.replace('pinglist_huddle_', '').split("_");
-			const [hash, invoker, serverID] = details;
-			let query = 'SELECT `name` FROM `pinglist` WHERE `snowflake` = ? AND `serverID` = ? AND record = \'hash\''
-			let name = (await fetchSQL(query, [hash, serverID]))[0].name;
-			const target = interaction.fields.getTextInputValue(`pinglist_huddle_target_${hash}_${serverID}`);
+			const [name, invoker, serverID] = details;
+			const target = interaction.fields.getTextInputValue(`pinglist_huddle_target_${name}_${serverID}`);
 			query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `snowflake` = ? AND `serverID` = ?';
 			const queryResult = await fetchSQL(query, [name, target, serverID]);
 			try {
