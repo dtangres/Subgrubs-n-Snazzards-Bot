@@ -10,7 +10,7 @@ module.exports = {
 	async execute(interaction) {
 		const user = interaction.user.id;
 		const serverID = interaction.guild.id;
-		const query = 'SELECT `name`, COUNT(*) AS `count` FROM `pinglist` WHERE `name` IN (SELECT `name` FROM `pinglist` WHERE `snowflake` = ? AND `record` = "owner" AND `serverID` = ?) AND `serverID` = ? GROUP BY `name`';
+		const query = 'SELECT `name`, COUNT(*) AS `count` FROM `pinglist` WHERE `name` IN (SELECT `name` FROM `pinglist` WHERE `snowflake` = ? AND `record` = "owner" AND `serverID` = ?) AND `serverID` = ? AND `record` != \'hash\' GROUP BY `name`';
 		const result = await fetchSQL(query, [user, serverID, serverID]);
 		const embed = getDefaultEmbed();
 
