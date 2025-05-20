@@ -102,7 +102,7 @@ module.exports = {
 			if (result.length) {
 				const modal = new ModalBuilder()
 					.setCustomId(`pinglist_huddle_${name}_${user}_${serverID}`)
-					.setTitle(`Select user for co-hosting ${name}`);
+					.setTitle(`Select user for co-hosting your pinglist`);
 				modal.addComponents(
 					new ActionRowBuilder().addComponents(
 						new TextInputBuilder()
