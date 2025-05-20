@@ -235,6 +235,22 @@ function getRollResultName(rollResult) {
 	return result;
 }
 
+/**
+ * @desc generates a random base36 string [a-z0-9] of length X.
+ * @param {Number} length a length for the string
+ * @returns {String} a base36 string of the specified length
+ */
+function generateBase36String(length) {
+	const pool = 'abcdefghijklmnopqrstuvwxyz0123456789'
+	let result = ''
+	while (length > 0) {
+		result += pool[roll1ToX(pool.length) - 1]
+		length -= 1
+	}
+	return result
+}
+
+
 module.exports = {
 	rollWeighted: rollWeighted,
 	rollDice: rollDice,
@@ -245,4 +261,5 @@ module.exports = {
 	getRollResultName: getRollResultName,
 	roll1ToX: roll1ToX,
 	rollFloat: rollFloat,
+	generateBase36String: generateBase36String,
 };
