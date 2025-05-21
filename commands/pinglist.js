@@ -88,7 +88,7 @@ module.exports = {
 			}
 			const userNames = userList.map(x => x).join('\n');
 
-			query = 'SELECT `snowflake` FROM `pinglist` WHERE `record` = \'owner\' AND `name` = ? AND `serverID` = ?;';
+			query = 'SELECT `snowflake` FROM `pinglist` WHERE `record` = \'owner\' AND `name` = ? AND `serverID` = ? AND `record` != \'hash\';';
 			result = await fetchSQL(query, [name, serverID]);
 			for (const i in result) {
 				const userName = (await interaction.guild.members.fetch(result[i].snowflake)) ?? null;
