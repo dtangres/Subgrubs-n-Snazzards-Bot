@@ -6,6 +6,7 @@ const { cardSetList, currentPool, visibleCardSetList, setTranslate, cardTranslat
 const { getDefaultEmbed } = require('../utils/stringy');
 const { cardTradeSessions, fetchSQL } = require('../utils/db');
 const { easyListItems } = require('../utils/math');
+const { generateBase36String } = require('../utils/dice');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -206,7 +207,7 @@ module.exports = {
 
 				// Initialize session details
 				const now = getCurrentTimestamp();
-				const sessionID = [interaction.user.id, targetPlayer.id, now].map(i => toString64(parseInt(i), 64)).join('.');
+				const sessionID = generateBase36String(16);
 
 				// Begin constructing embed, buttons
 				const embed = getDefaultEmbed()
@@ -331,7 +332,7 @@ module.exports = {
 				theirCardSelectArrowRow.addComponents(confirmButton);
 
 				// Push session to global session tracker
-				cardTradeSessions[sessionID] = { offer: await makeNewBinder(), payment: await makeNewBinder(), setFocus: focusSet, initiatorFocus: focusInitiator, targetFocus: focusTarget, closing: false };
+				cardTradeSessions[sessionID] = { offer: await makeNewBinder(), payment: await makeNewBinder(), setFocus: focusSet, initiator: initiatingPlayer.id, target: targetPlayer.id, initiatorFocus: focusInitiator, targetFocus: focusTarget, closing: false };
 				// Respond to player command with embed
 				// TODO Defer reply
 				const response = await interaction.editReply({ embeds: [embed], components: [setSelectRow, yourCardSelectRow, yourCardSelectArrowRow, theirCardSelectRow, theirCardSelectArrowRow] });
@@ -373,7 +374,8 @@ module.exports = {
 						} else {
 						// TODO Functionalize this?
 							const bDecider = bTrader === 'initiator';
-							const [bInitiator, bTarget, ,] = bSession.split('.').map(x => parseInt64(x, 64));
+							const bInitiator = cardTradeSessions[bSession]['initiator'];
+							const bTarget = cardTradeSessions[bSession]['target'];
 							const bBinder = await fetchBinder(bDecider ? bInitiator : bTarget);
 							const bFocus = cardTradeSessions[bSession][bDecider ? 'initiatorFocus' : 'targetFocus'];
 							const bDealSide = bDecider ? 'offer' : 'payment';
@@ -511,7 +513,9 @@ module.exports = {
 						} else {
 							const sSet = cardTradeSessions[sSession]['setFocus'];
 							const sDecider = sTrader === 'initiator';
-							const [sInitiator, sTarget, ,] = sSession.split('.').map(x => parseInt64(x, 64));
+							
+							const sInitiator = cardTradeSessions[sSession]['initiator'];
+							const sTarget = cardTradeSessions[sSession]['target'];
 							const sChoice = selectInteraction.values[0];
 							cardTradeSessions[sSession][sDecider ? 'initiatorFocus' : 'targetFocus'] = sChoice;
 							// TODO ternarize this, like on the line before the update statement
