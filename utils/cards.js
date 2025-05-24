@@ -240,7 +240,7 @@ async function getPrettyBinderSummary(binder, _set) {
 				const { card_info } = getCardData(set);
 				const { cards } = card_info;
 				summary.push(`## ${setTranslate[set]}\n` + objectToListMap(Object.keys(cards).sort(), function(card) {
-					return `- \`${cardTranslate[card]}\`: x${binder[set][card] ?? 0}`;
+					return `- \`${cardTranslate[card]}\`: x${(binder[set] ?? [])[card] ?? 0}`;
 				}).join('\n'));
 			}
 		} else {
