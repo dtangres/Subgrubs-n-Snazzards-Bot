@@ -68,7 +68,7 @@ module.exports = {
 		} else if (operation === 'create') {
 			await interaction.reply({ content: `It seems like you already have a pinglist named '${name}' on this server!`, ephemeral: true });
 		} else if (operation === 'invoke') {
-			query = 'SELECT `snowflake` FROM `pinglist` WHERE `name` = ? AND `serverID` = ?';
+			query = 'SELECT `snowflake` FROM `pinglist` WHERE `name` = ? AND `serverID` = ? AND `record` != \'hash\'';
 			result = await fetchSQL(query, [name, serverID]);
 			const userList = result.map(x => `<@${x.snowflake}>`).join(' ');
 			const announcement = `Ping by ${interaction.member.displayName}!`;
