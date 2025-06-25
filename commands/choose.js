@@ -31,33 +31,37 @@ module.exports = {
 		const secrecy = interaction.options.getBoolean('secret') ?? false;
 		const pick = interaction.options.getInteger('pick') ?? 1;
 		let choices;
-		// If no spaces exist, only one choice exists to select from
-		// Sausage admonishes the user and returns
-		if (choiceString.indexOf(' ') === -1) {
-			await interaction.reply({ content: 'dude.', ephemeral: true });
-			return;
-		}
+		
 		const displayList = [];
 		const weightedChoices = {};
 		let numberOfChoices = 0;
+		let delimiter = null;
 		for (const s in delimiters) {
 			if (choiceString.indexOf(delimiters[s]) !== -1) {
-				choices = choiceString.split(delimiters[s]).map(x => x.trim());
-				for (let i = 0; i < choices.length; i++) {
-					const match = /: ?(\d+)/.exec(choices[i]);
-					if (match) {
-						const processedString = choices[i].substring(0, choices[i].length - match[0].length);
-						displayList.push(`- \`${processedString}\` (${match[1]})`);
-						const weight = parseInt(match[1]);
-						weightedChoices[processedString] = weight;
-						numberOfChoices += weight;
-					} else {
-						displayList.push(`- \`${choices[i]}\``);
-						weightedChoices[choices[i]] = 1;
-						numberOfChoices += 1;
-					}
-				}
+				delimiter = delimiters[s]
 				break;
+			}
+		}
+		// If no delimiters exist, only one choice exists to select from
+		// Sausage admonishes the user and returns
+		if (!delimiter) {
+			await interaction.reply({ content: 'dude.', ephemeral: true });
+			return;
+		}
+
+		choices = choiceString.split(delimiter).map(x => x.trim());
+		for (let i = 0; i < choices.length; i++) {
+			const match = /: ?(\d+)/.exec(choices[i]);
+			if (match) {
+				const processedString = choices[i].substring(0, choices[i].length - match[0].length);
+				displayList.push(`- \`${processedString}\` (${match[1]})`);
+				const weight = parseInt(match[1]);
+				weightedChoices[processedString] = weight;
+				numberOfChoices += weight;
+			} else {
+				displayList.push(`- \`${choices[i]}\``);
+				weightedChoices[choices[i]] = 1;
+				numberOfChoices += 1;
 			}
 		}
 		if (numberOfChoices <= pick) {
