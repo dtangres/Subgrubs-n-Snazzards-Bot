@@ -1,0 +1,84 @@
+{
+	"style": "classic",
+	"set_name": "worldcup",
+	"card_info": {
+		"card_names": [
+			"wailer",
+            "militaris",
+			"bottomgreeder",
+			"orphaners prowess"
+		],
+		"drop_table": [
+			"wailer",
+            "militaris",
+			"bottomgreeder",
+			"orphaners prowess"
+		],
+		"cards": {
+			"wailer": {
+				"card_name": "Loamtrench Wailer",
+				"art_path": "kaijulynx.png",
+				"description": "🎨 Art by **Demon**",
+				"card_border_color": "hsl(110, 40%, 39%)",
+				"bg_grd_start": "hsl(110, 40%, 39%)",
+				"bg_grd_end": "hsl(110, 40%, 29%)",
+				"bg_hex_start": "hsl(15, 33%, 50%)",
+				"bg_hex_end": "hsl(15, 33%, 30%)",
+				"art_offset_x": 0,
+				"art_offset_y": 0,
+				"art_scale": 0.5,
+				"text_color": "hsl(0, 0%, 100%)",
+				"card_art_border_color": "hsl(110, 40%, 39%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+            "militaris": {
+				"card_name": "FORMITOPIDA MILITARIS",
+				"art_path": "ipullup.png",
+				"description": "🎨 Art by **Wizard**",
+				"card_border_color": "hsl(334, 68%, 39%)",
+				"bg_grd_start": "hsl(128, 37%, 44%)",
+				"bg_grd_end": "hsl(128, 37%, 34%)",
+				"bg_hex_start": "hsl(130, 23%, 30%)",
+				"bg_hex_end": "hsl(130, 23%, 20%)",
+				"art_offset_x": 0,
+				"art_offset_y": 0,
+				"art_scale": 0.5,
+				"text_color": "hsl(0, 0%, 100%)",
+				"card_art_border_color": "hsl(334, 68%, 39%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"bottomgreeder": {
+				"card_name": "Bottomgreeder",
+				"art_path": "squit.png",
+				"description": "🎨 Art by **Wizard**",
+				"card_border_color": "hsl(273, 36%, 42%)",
+				"bg_grd_start": "hsl(37, 30%, 96%)",
+				"bg_grd_end": "hsl(37, 31%, 94%)",
+				"bg_hex_start": "hsl(303, 9%, 82%)",
+				"bg_hex_end": "hsl(303, 9%, 65%)",
+				"art_offset_x": 0,
+				"art_offset_y": 0,
+				"art_scale": 0.3,
+				"text_color": "hsl(0, 0%, 100%)",
+				"card_art_border_color": "hsl(273, 36%, 42%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"orphaners prowess": {
+				"card_name": "Orphaners' Prowess",
+				"art_path": "orphanersprowess.png",
+				"description": "🎨 Art by **Wizard**",
+				"card_border_color": "hsl(267, 56%, 15%)",
+				"bg_grd_start": "hsl(207, 57%, 43%)",
+				"bg_grd_end": "hsl(204, 60%, 39%)",
+				"bg_hex_start": "hsl(267, 47%, 30%)",
+				"bg_hex_end": "hsl(266, 46%, 24%)",
+				"art_offset_x": -100,
+				"art_offset_y": 0,
+				"art_scale": 0.3,
+				"text_color": "hsl(0, 0%, 100%)",
+				"card_art_border_color": "hsl(267, 56%, 15%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			}
+		}
+	}
+}
