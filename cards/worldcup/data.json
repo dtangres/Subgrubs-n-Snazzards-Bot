@@ -3,16 +3,16 @@
 	"set_name": "worldcup",
 	"card_info": {
 		"card_names": [
-			"wailer",
-            "militaris",
+			"loamtrenchwailer",
+			"formitopidamilitaris",
 			"bottomgreeder",
-			"orphaners prowess"
+			"orphanersprowess"
 		],
 		"drop_table": [
-			"wailer",
-            "militaris",
+			"loamtrenchwailer",
+			"formitopidamilitaris",
 			"bottomgreeder",
-			"orphaners prowess"
+			"orphanersprowess"
 		],
 		"cards": {
 			"wailer": {
