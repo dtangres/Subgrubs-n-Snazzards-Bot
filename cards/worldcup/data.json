@@ -3,19 +3,19 @@
 	"set_name": "worldcup",
 	"card_info": {
 		"card_names": [
-			"loamtrenchwailer",
-			"formitopidamilitaris",
-			"bottomgreeder",
-			"orphanersprowess"
+			"loamtrench wailer",
+			"formitopida militaris",
+			"bottom greeder",
+			"orphaners prowess"
 		],
 		"drop_table": [
-			"loamtrenchwailer",
-			"formitopidamilitaris",
-			"bottomgreeder",
-			"orphanersprowess"
+			"loamtrench wailer",
+			"formitopida militaris",
+			"bottom greeder",
+			"orphaners prowess"
 		],
 		"cards": {
-			"wailer": {
+			"loamtrench wailer": {
 				"card_name": "Loamtrench Wailer",
 				"art_path": "kaijulynx.png",
 				"description": "🎨 Art by **Demon**",
@@ -31,7 +31,7 @@
 				"card_art_border_color": "hsl(110, 40%, 39%)",
 				"drop_shadow_color": "hsl(0, 0%, 0%)"
 			},
-            "militaris": {
+            "formitopida militaris": {
 				"card_name": "FORMITOPIDA MILITARIS",
 				"art_path": "ipullup.png",
 				"description": "🎨 Art by **Wizard**",
@@ -47,7 +47,7 @@
 				"card_art_border_color": "hsl(334, 68%, 39%)",
 				"drop_shadow_color": "hsl(0, 0%, 0%)"
 			},
-			"bottomgreeder": {
+			"bottom greeder": {
 				"card_name": "Bottomgreeder",
 				"art_path": "squit.png",
 				"description": "🎨 Art by **Wizard**",
