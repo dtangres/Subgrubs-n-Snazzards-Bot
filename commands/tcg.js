@@ -1,6 +1,6 @@
 /* eslint-disable capitalized-comments */
 const { SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
-const { getRandomCard, handlePlayerReward, postCard, fetchBinder, getPrettyBinderSummary, addCard, removeCard, pushBinder, checkSessionConflict, SessionStatus, makeNewBinder, isEmptyBinder, isEmptySet, getCardData } = require('../utils/cards');
+const { getRandomCard, handlePlayerReward, postCard, fetchBinder, getPrettyBinderSummary, addCard, removeCard, pushBinder, checkSessionConflict, SessionStatus, makeNewBinder, isEmptyBinder, isEmptySet, getCardData, validateBinder } = require('../utils/cards');
 const { parseInt64, toString64, getCurrentTimestamp, clamp, objectToListMap } = require('../utils/math');
 const { cardSetList, currentPool, visibleCardSetList, setTranslate, cardTranslate, tradingOn, droppingCards, cardDropWaitTime, dailyBlocker } = require('../utils/info');
 const { getDefaultEmbed } = require('../utils/stringy');
@@ -243,6 +243,7 @@ module.exports = {
 					.setCustomId(`binder_trade_${sessionID}_initiator_select`);
 				// Binder collection / outgoing select menu
 				const yourBinder = await fetchBinder(initiatingPlayer.id);
+				await validateBinder(yourBinder);
 				const initiatorHasCards = !isEmptyBinder(yourBinder);
 				isDefault = true;
 				for (const card in initiatorHasCards ? yourBinder[focusSet] : { 'No cards!': 0 }) {
@@ -285,6 +286,7 @@ module.exports = {
 				const theirCardSelect = new StringSelectMenuBuilder()
 					.setCustomId(`binder_trade_${sessionID}_target_select`);
 				const theirBinder = await fetchBinder(targetPlayer.id);
+				await validateBinder(theirBinder);
 				const targetHasCards = !isEmptyBinder(theirBinder);
 				isDefault = true;
 				for (const card in targetHasCards ? theirBinder[focusSet] : { 'No cards!': 0 }) {

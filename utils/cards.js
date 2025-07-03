@@ -272,6 +272,18 @@ function isEmptyBinder(binder) {
 	return all(Object.keys(binder).map((x) => isEmptySet(binder, x)));
 }
 
+async function validateBinder(binder) {
+	// Iterate through every set and every card name
+	for (const setNameIndex in cardSetList) {
+		// If a set is not present: populate it with key card names and value zeros
+		const setName = cardSetList[setNameIndex];
+		if (binder[setName] === undefined) {
+			let cards = getCardData(setName)['card_info']['card_names'];
+			binder[setName] = Object.fromEntries(cards.map(x => [x, 0]));
+		}
+	}
+}
+
 module.exports = {
 	makeGradient: makeGradient,
 	generateCard: generateCard,
@@ -289,5 +301,6 @@ module.exports = {
 	isEmptySet: isEmptySet,
 	isEmptyBinder: isEmptyBinder,
 	getCardData: getCardData,
+	validateBinder: validateBinder,
 	SessionStatus: SessionStatus,
 };
