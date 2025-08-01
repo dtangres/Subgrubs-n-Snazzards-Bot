@@ -6,13 +6,17 @@
 			"loamtrench wailer",
 			"formitopida militaris",
 			"bottom greeder",
-			"orphaners prowess"
+			"orphaners prowess",
+			"the witchwood",
+			"heresy devil"
 		],
 		"drop_table": [
 			"loamtrench wailer",
 			"formitopida militaris",
 			"bottom greeder",
-			"orphaners prowess"
+			"orphaners prowess",
+			"the witchwood",
+			"heresy devil"
 		],
 		"cards": {
 			"loamtrench wailer": {
@@ -77,6 +81,38 @@
 				"art_scale": 0.3,
 				"text_color": "hsl(0, 0%, 100%)",
 				"card_art_border_color": "hsl(267, 56%, 15%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"the witchwood": {
+				"card_name": "The Witchwood",
+				"art_path": "witchpine.png",
+				"description": "🎨 Art by **Kingsley**",
+				"card_border_color": "hsl(0, 46%, 25%)",
+				"bg_grd_start": "hsl(0, 0%, 85%)",
+				"bg_grd_end": "hsl(0, 0%, 90%)",
+				"bg_hex_start": "hsl(0, 0%, 80%)",
+				"bg_hex_end": "hsl(0, 0%, 85%)",
+				"art_offset_x": 0,
+				"art_offset_y": 0,
+				"art_scale": 0.4,
+				"text_color": "hsl(0, 46%, 25%)",
+				"card_art_border_color": "hsl(0, 46%, 25%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"heresy devil": {
+				"card_name": "The Heresy Devil",
+				"art_path": "heresydevil.png",
+				"description": "🎨 Art by **Honey**",
+				"card_border_color": "hsl(296, 23%, 32%)",
+				"bg_grd_start": "hsl(348, 11%, 50%)",
+				"bg_grd_end": "hsl(348, 11%, 40%)",
+				"bg_hex_start": "hsl(342, 6%, 44%)",
+				"bg_hex_end": "hsl(342, 6%, 54%)",
+				"art_offset_x": 0,
+				"art_offset_y": 0,
+				"art_scale": 0.4,
+				"text_color": "hsl(296, 23%, 32%)",
+				"card_art_border_color": "hsl(296, 23%, 32%)",
 				"drop_shadow_color": "hsl(0, 0%, 0%)"
 			}
 		}
