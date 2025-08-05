@@ -388,13 +388,13 @@ module.exports = {
 
 							const bYourOfferStringArr = [];
 							for (const bySet in cardTradeSessions[bSession]['offer']) {
-								bYourOfferStringArr.push(!isEmptySet(cardTradeSessions[bSession]['offer'], bySet) ? `- **${setTranslate[bySet]}**\n` + objectToListMap(Object.entries(cardTradeSessions[bSession]['offer'][bySet]), (i) => (i[1] > 0 ? ` - \`${cardTranslate[i[0]]}\` x${i[1]}` : '')).filter(i => i.length).join('\n') : '');
+								bYourOfferStringArr.push(!isEmptySet(cardTradeSessions[bSession]['offer'], bySet) ? `- **${setTranslate[bySet]}**\n` + objectToListMap(Object.entries(cardTradeSessions[bSession]['offer'][bySet]), (i) => (i[1] > 0 ? `   - \`${cardTranslate[i[0]]}\` x${i[1]}` : '')).filter(i => i.length).join('\n') : '');
 							}
 							let bYourOfferString = bYourOfferStringArr.filter(i => i.length).join('\n\n');
 
 							const bTheirOfferStringArr = [];
 							for (const btSet in cardTradeSessions[bSession]['payment']) {
-								bTheirOfferStringArr.push(!isEmptySet(cardTradeSessions[bSession]['payment'], btSet) ? `- **${setTranslate[btSet]}**\n` + objectToListMap(Object.entries(cardTradeSessions[bSession]['payment'][btSet]), (i) => (i[1] > 0 ? ` - \`${cardTranslate[i[0]]}\` x${i[1]}` : '')).filter(i => i.length).join('\n') : '');
+								bTheirOfferStringArr.push(!isEmptySet(cardTradeSessions[bSession]['payment'], btSet) ? `- **${setTranslate[btSet]}**\n` + objectToListMap(Object.entries(cardTradeSessions[bSession]['payment'][btSet]), (i) => (i[1] > 0 ? `   - \`${cardTranslate[i[0]]}\` x${i[1]}` : '')).filter(i => i.length).join('\n') : '');
 							}
 							let bTheirOfferString = bTheirOfferStringArr.filter(i => i.length).join('\n');
 
