@@ -8,7 +8,9 @@
 			"bottom greeder",
 			"orphaners prowess",
 			"the witchwood",
-			"heresy devil"
+			"heresy devil",
+			"lightning skyterror",
+			"tidal crushwings"
 		],
 		"drop_table": [
 			"loamtrench wailer",
@@ -16,7 +18,9 @@
 			"bottom greeder",
 			"orphaners prowess",
 			"the witchwood",
-			"heresy devil"
+			"heresy devil",
+			"lightning skyterror",
+			"tidal crushwings"
 		],
 		"cards": {
 			"loamtrench wailer": {
@@ -113,6 +117,38 @@
 				"art_scale": 0.4,
 				"text_color": "hsl(296, 23%, 32%)",
 				"card_art_border_color": "hsl(296, 23%, 32%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"lightning skyterror": {
+				"card_name": "Lightning Skyterror",
+				"art_path": "lightning skyterror.png",
+				"description": "🎨 Art by **Sh0rt**",
+				"card_border_color": "hsl(52, 98%, 61%)",
+				"bg_grd_start": "hsl(244, 11%, 45%)",
+				"bg_grd_end": "hsl(244, 11%, 35%)",
+				"bg_hex_start": "hsl(244, 17%, 52%)",
+				"bg_hex_end": "hsl(244, 17%, 42%)",
+				"art_offset_x": 0,
+				"art_offset_y": 0,
+				"art_scale": 0.15,
+				"text_color": "hsl(52, 98%, 61%)",
+				"card_art_border_color": "hsl(52, 98%, 61%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"tidal crushwings": {
+				"card_name": "Tidal Crushwings",
+				"art_path": "tidal crushwings.png",
+				"description": "🎨 Art by **Sh0rt**",
+				"card_border_color": "hsl(169, 96%, 70%)",
+				"bg_grd_start": "hsl(195, 32%, 21%)",
+				"bg_grd_end": "hsl(195, 32%, 16%)",
+				"bg_hex_start": "hsl(195, 42%, 21%)",
+				"bg_hex_end": "hsl(195, 42%, 18%)",
+				"art_offset_x": 0,
+				"art_offset_y": 0,
+				"art_scale": 0.15,
+				"text_color": "hsl(169, 96%, 70%)",
+				"card_art_border_color": "hsl(169, 96%, 70%)",
 				"drop_shadow_color": "hsl(0, 0%, 0%)"
 			}
 		}
