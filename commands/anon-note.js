@@ -10,9 +10,6 @@ module.exports = {
 			await guild.members.fetch(interaction.user.id)
 				.then(data => {
 					console.log(data.user);
-					/* If (!members.includes(interaction.user)) {
-						throw Error('User not in Serverstuck');
-					}*/
 				});
 			const noteRow = new ActionRowBuilder();
 			const noteBox = new TextInputBuilder()
@@ -35,7 +32,7 @@ module.exports = {
 				await interaction.reply({ content: 'Sorry, you don\'t have permission to use this command.', ephemeral: true });
 			} else {
 				console.log('Error while showing anon-note modal: ', e);
-				await interaction.reply({ content: 'Sorry, something went wrong. If this error persists, ping Meme or a mod.', ephemeral: true });
+				await interaction.reply({ content: 'Sorry, something went wrong. If this error persists, ping a developer.', ephemeral: true });
 			}
 		}
 	},
