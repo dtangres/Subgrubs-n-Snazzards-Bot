@@ -8,8 +8,8 @@ module.exports = {
 		try {
 			const guild = await interaction.client.guilds.cache.get(process.env.GUILD_ID);
 			await guild.members.fetch(interaction.user.id)
-				.then(data => {
-					console.log(data.user);
+				.then(() => {
+					// Do nothing
 				});
 			const noteRow = new ActionRowBuilder();
 			const noteBox = new TextInputBuilder()
