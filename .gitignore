@@ -135,6 +135,7 @@ dist
 # folders
 img
 memdump
+sandbox
 # events
 events/replies.js
 # commands
