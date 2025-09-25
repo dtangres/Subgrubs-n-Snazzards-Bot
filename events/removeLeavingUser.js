@@ -13,7 +13,7 @@ module.exports = {
 		const bannedUserPinglists = await fetchSQL(query, [bannedUserSnowflake]);
 		for (const record of bannedUserPinglists) {
 			query = 'SELECT * FROM `pinglist` WHERE `record` = \'owner\' AND `name` = ?';
-			const onwerNumber = await fetchSQL(query, [record.name]);
+			const ownerNumber = await fetchSQL(query, [record.name]);
 			if (ownerNumber === 1) {
 				// Destroy orphans
 				query = 'DELETE FROM `pinglist` WHERE `name` = ?';
@@ -23,7 +23,6 @@ module.exports = {
 				query = 'DELETE FROM `pinglist` WHERE `snowflake` = ? AND `record` = \'owner\' AND `name` = ?';
 				await fetchSQL(query, [record.name]);
 			}
-			
 		}
 
 		// Remove banned user from remaining pinglists
