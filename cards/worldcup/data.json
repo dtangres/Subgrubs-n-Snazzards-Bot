@@ -10,7 +10,9 @@
 			"the witchwood",
 			"heresy devil",
 			"lightning skyterror",
-			"tidal crushwings"
+			"tidal crushwings",
+			"abuela selvieja",
+			"tio vijilantasma"
 		],
 		"drop_table": [
 			"loamtrench wailer",
@@ -20,7 +22,9 @@
 			"the witchwood",
 			"heresy devil",
 			"lightning skyterror",
-			"tidal crushwings"
+			"tidal crushwings",
+			"abuela selvieja",
+			"tio vijilantasma"
 		],
 		"cards": {
 			"loamtrench wailer": {
@@ -149,6 +153,38 @@
 				"art_scale": 0.15,
 				"text_color": "hsl(169, 96%, 70%)",
 				"card_art_border_color": "hsl(169, 96%, 70%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"abuela selvieja": {
+				"card_name": "Abuela Selvieja",
+				"art_path": "selvieja.png",
+				"description": "🎨 Art by **Ginx**",
+				"card_border_color": "hsl(211, 64%, 67%)",
+				"bg_grd_start": "hsl(46, 61%, 42%)",
+				"bg_grd_end": "hsl(46, 61%, 29%)",
+				"bg_hex_start": "hsl(211, 22%, 41%)",
+				"bg_hex_end": "hsl(211, 22%, 25%)",
+				"art_offset_x": 30,
+				"art_offset_y": 0,
+				"art_scale": 0.90,
+				"text_color": "hsl(211, 64%, 67%)",
+				"card_art_border_color": "hsl(211, 64%, 67%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"tio vijilantasma": {
+				"card_name": "Tío Vijilantasma",
+				"art_path": "vijilantasma.png",
+				"description": "🎨 Art by **Gumby** and **Ken**",
+				"card_border_color": "hsl(160, 2%, 5%)",
+				"bg_grd_start": "hsl(120, 11%, 42%)",
+				"bg_grd_end": "hsl(120, 11%, 32%)",
+				"bg_hex_start": "hsl(120, 41%, 42%)",
+				"bg_hex_end": "hsl(120, 41%, 32%)",
+				"art_offset_x": -50,
+				"art_offset_y": 175,
+				"art_scale": 0.40,
+				"text_color": "hsl(160, 2%, 5%)",
+				"card_art_border_color": "hsl(160, 2%, 5%)",
 				"drop_shadow_color": "hsl(0, 0%, 0%)"
 			}
 		}
