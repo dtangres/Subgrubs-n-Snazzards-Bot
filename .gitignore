@@ -143,3 +143,4 @@ commands/tipjar.js
 # utils
 utils/info.js
 
+commands/dev*

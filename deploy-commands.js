@@ -21,11 +21,12 @@ for (const file of commandFiles) {
 		continue;
 	}
 	const command = require(`./commands/${file}`);
-	if (globalBlacklist.includes(`${file}`)) {
-		commandsLocal.push(command.data.toJSON());
+	const json = command.data.toJSON();
+	// Only locally push blacklisted/dev-only commands
+	if (globalBlacklist.includes(`${file}`) || (json.description || '').includes('<DEV COMMAND>')) {
 		console.log(`Pushed ${file} with no visibility`);
 	} else {
-		commandsGlobal.push(command.data.toJSON());
+		commandsGlobal.push(json);
 		console.log(`Pushed ${file}`);
 	}
 }
