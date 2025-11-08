@@ -12,7 +12,9 @@
 			"lightning skyterror",
 			"tidal crushwings",
 			"abuela selvieja",
-			"tio vijilantasma"
+			"tio vijilantasma",
+			"megavifauna",
+			"swampwoods banshee"
 		],
 		"drop_table": [
 			"loamtrench wailer",
@@ -24,7 +26,9 @@
 			"lightning skyterror",
 			"tidal crushwings",
 			"abuela selvieja",
-			"tio vijilantasma"
+			"tio vijilantasma",
+			"megavifauna",
+			"swampwoods banshee"
 		],
 		"cards": {
 			"loamtrench wailer": {
@@ -185,6 +189,38 @@
 				"art_scale": 0.40,
 				"text_color": "hsl(160, 2%, 5%)",
 				"card_art_border_color": "hsl(160, 2%, 5%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"megavifauna": {
+				"card_name": "Megavifauna",
+				"art_path": "megavifauna.png",
+				"description": "🎨 Art by **Ruta**",
+				"card_border_color": "hsl(271, 28%, 16%)",
+				"bg_grd_start": "hsl(268, 30%, 75%)",
+				"bg_grd_end": "hsl(268, 30%, 65%)",
+				"bg_hex_start": "hsl(271, 29%, 45%)",
+				"bg_hex_end": "hsl(271, 29%, 35%)",
+				"art_offset_x": 0,
+				"art_offset_y": 0,
+				"art_scale": 0.55,
+				"text_color": "hsl(0, 100%, 100%)",
+				"card_art_border_color": "hsl(271, 28%, 16%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"swampwoods banshee": {
+				"card_name": "Swampwoods Banshee",
+				"art_path": "banshee.png",
+				"description": "🎨 Art by **Ruta**",
+				"card_border_color": "hsl(200, 19%, 17%)",
+				"bg_grd_start": "hsl(153, 26%, 53%)",
+				"bg_grd_end": "hsl(153, 26%, 43%)",
+				"bg_hex_start": "hsl(200, 19%, 22%)",
+				"bg_hex_end": "hsl(200, 19%, 17%)",
+				"art_offset_x": 0,
+				"art_offset_y": 0,
+				"art_scale": 0.65,
+				"text_color": "hsl(0, 100%, 100%)",
+				"card_art_border_color": "hsl(200, 19%, 17%)",
 				"drop_shadow_color": "hsl(0, 0%, 0%)"
 			}
 		}
