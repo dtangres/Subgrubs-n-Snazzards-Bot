@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, ButtonBuilder, ButtonStyle, TextInputStyle, UserSelectMenuBuilder } = require('discord.js');
+const { SlashCommandBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, ButtonBuilder, ButtonStyle, TextInputStyle } = require('discord.js');
 const { getDefaultEmbed } = require('../utils/stringy');
 const { fetchSQL } = require('../utils/db');
 
@@ -73,6 +73,7 @@ module.exports = {
 			const userList = result.map(x => `<@${x.snowflake}>`).join(' ');
 			const announcement = `Ping by ${interaction.member.displayName}!`;
 			await interaction.reply({ content: `${announcement}\n\n-# ${userList}`, embeds: [getDefaultEmbed().setDescription(`Pinglist \`${name}\` invoked!\n\nUsers pinged: \`${result.length}\``)], components: pinglistMessageContents });
+			await interaction.editReply({ content: `${announcement}` });
 		} else if (operation === 'assess') {
 			await interaction.guild.members.fetch();
 			query = 'SELECT `snowflake` FROM `pinglist` WHERE `record` = \'subscriber\' AND `name` = ? AND `serverID` = ?;';
@@ -102,7 +103,7 @@ module.exports = {
 			if (result.length) {
 				const modal = new ModalBuilder()
 					.setCustomId(`pinglist_huddle_${name}_${user}_${serverID}`)
-					.setTitle(`Select user for co-hosting your pinglist`);
+					.setTitle('Select user for co-hosting your pinglist');
 				modal.addComponents(
 					new ActionRowBuilder().addComponents(
 						new TextInputBuilder()
@@ -110,7 +111,7 @@ module.exports = {
 							.setLabel('Paste in your target\'s snowflake')
 							.setStyle(TextInputStyle.Short)
 							.setRequired(true),
-					)
+					),
 				);
 				await interaction.showModal(modal);
 			} else {
@@ -156,7 +157,7 @@ module.exports = {
 				);
 				await interaction.showModal(modal);
 			} else {
-				await interaction.reply({ content: `You can't delete a pinglist you're not the sole owner of.\nIf you don't want to be in this one anymore, use \`/pinglist bestow\` on it and click 'Leave Pinglist'.`, ephemeral: true });
+				await interaction.reply({ content: 'You can\'t delete a pinglist you\'re not the sole owner of.\nIf you don\'t want to be in this one anymore, use `/pinglist bestow` on it and click \'Leave Pinglist\'.', ephemeral: true });
 			}
 		}
 	},
