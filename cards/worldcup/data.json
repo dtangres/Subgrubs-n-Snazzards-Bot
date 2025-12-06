@@ -14,7 +14,9 @@
 			"abuela selvieja",
 			"tio vijilantasma",
 			"megavifauna",
-			"swampwoods banshee"
+			"swampwoods banshee",
+			"udolnichodec",
+			"szornarkany"
 		],
 		"drop_table": [
 			"loamtrench wailer",
@@ -28,7 +30,9 @@
 			"abuela selvieja",
 			"tio vijilantasma",
 			"megavifauna",
-			"swampwoods banshee"
+			"swampwoods banshee",
+			"udolnichodec",
+			"szornarkany"
 		],
 		"cards": {
 			"loamtrench wailer": {
@@ -221,6 +225,38 @@
 				"art_scale": 0.65,
 				"text_color": "hsl(0, 100%, 100%)",
 				"card_art_border_color": "hsl(200, 19%, 17%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"szornarkany": {
+				"card_name": "Szörnárkány",
+				"art_path": "szörnárkány.png",
+				"description": "🎨 Art by **Honey**",
+				"card_border_color": "hsl(3, 90%, 15%)",
+				"bg_grd_start": "hsl(3, 90%, 15%)",
+				"bg_grd_end": "hsl(3, 90%, 10%)",
+				"bg_hex_start": "hsl(252, 9%, 11%)",
+				"bg_hex_end": "hsl(252, 9%, 7%)",
+				"art_offset_x": 0,
+				"art_offset_y": 0,
+				"art_scale": 0.375,
+				"text_color": "hsl(0, 100%, 100%)",
+				"card_art_border_color": "hsl(3, 90%, 15%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"udolnichodec": {
+				"card_name": "Údolníchodec",
+				"art_path": "údolníchodec.png",
+				"description": "🎨 Art by **Wizard**",
+				"card_border_color": "hsl(48, 35%, 51%)",
+				"bg_grd_start": "hsl(48, 35%, 51%)",
+				"bg_grd_end": "hsl(48, 35%, 31%)",
+				"bg_hex_start": "hsl(358, 78%, 15%)",
+				"bg_hex_end": "hsl(358, 78%, 10%)",
+				"art_offset_x": 0,
+				"art_offset_y": 0,
+				"art_scale": 0.60,
+				"text_color": "hsl(0, 100%, 100%)",
+				"card_art_border_color": "hsl(48, 35%, 51%)",
 				"drop_shadow_color": "hsl(0, 0%, 0%)"
 			}
 		}
