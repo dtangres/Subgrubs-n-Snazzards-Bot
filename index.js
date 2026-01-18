@@ -28,6 +28,9 @@ client.on('rateLimit', (msg) => {
 	console.log(msg);
 });
 
+// Increase number of listeners
+client.setMaxListeners(32);
+
 // Load conditions for commands, events
 const eventConditions = JSON.parse(fs.readFileSync(path.join(__dirname, 'events/eventConditions.json'), 'utf8'));
 const commandConditions = JSON.parse(fs.readFileSync(path.join(__dirname, 'commands/commandConditions.json'), 'utf8'));
@@ -85,7 +88,7 @@ const seconds = now.getSeconds();
 db.trollFirstNameDict, db.trollFullNameDict, db.trollTitleDict = db.loadTrollCall();
 
 // Load troll call and other resources
-schedule(`${seconds} ${minutes} * * * *`, function() {
+schedule(`${seconds} ${minutes} * * * *`, function () {
 	console.log('---------------------');
 	db.trollFirstNameDict, db.trollFullNameDict, db.trollTitleDict = db.loadTrollCall();
 });
@@ -108,7 +111,7 @@ const CronJob = require('cron').CronJob;
 const wrigglerRemovalJob = new CronJob(
 	// Check at midnight. Midnight where? Who knows
 	'0 0 * * *',
-	async function() {
+	async function () {
 		try {
 			console.log('Checking for old wrigglers.');
 			const guild = client.guilds.cache.get(process.env.GUILD_ID);
