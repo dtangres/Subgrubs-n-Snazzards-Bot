@@ -16,7 +16,9 @@
 			"megavifauna",
 			"swampwoods banshee",
 			"udolnichodec",
-			"szornarkany"
+			"szornarkany",
+			"peistchroi",
+			"megamuc mor"
 		],
 		"drop_table": [
 			"loamtrench wailer",
@@ -32,7 +34,9 @@
 			"megavifauna",
 			"swampwoods banshee",
 			"udolnichodec",
-			"szornarkany"
+			"szornarkany",
+			"peistchroi",
+			"megamuc mor"
 		],
 		"cards": {
 			"loamtrench wailer": {
@@ -51,7 +55,7 @@
 				"card_art_border_color": "hsl(110, 40%, 39%)",
 				"drop_shadow_color": "hsl(0, 0%, 0%)"
 			},
-            "formitopida militaris": {
+			"formitopida militaris": {
 				"card_name": "FORMITOPIDA MILITARIS",
 				"art_path": "ipullup.png",
 				"description": "🎨 Art by **Wizard**",
@@ -257,6 +261,38 @@
 				"art_scale": 0.60,
 				"text_color": "hsl(0, 100%, 100%)",
 				"card_art_border_color": "hsl(48, 35%, 51%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"peistchroi": {
+				"card_name": "Péistchroí the Smogshifter",
+				"art_path": "Péistchroí the Smogshifter.png",
+				"description": "🎨 Art by **Law**",
+				"card_border_color": "hsl(65, 11%, 43%)",
+				"bg_grd_start": "hsl(65, 11%, 43%)",
+				"bg_grd_end": "hsl(65, 11%, 23%)",
+				"bg_hex_start": "hsl(273, 52%, 46%)",
+				"bg_hex_end": "hsl(273, 52%, 26%)",
+				"art_offset_x": -50,
+				"art_offset_y": 0,
+				"art_scale": 0.50,
+				"text_color": "hsl(0, 100%, 100%)",
+				"card_art_border_color": "hsl(65, 11%, 43%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"megamuc mor": {
+				"card_name": "Megamuc Mór",
+				"art_path": "Megamuc Mór.png",
+				"description": "🎨 Art by **Kingsley**",
+				"card_border_color": "hsl(129, 18%, 43%)",
+				"bg_grd_start": "hsl(129, 18%, 43%)",
+				"bg_grd_end": "hsl(129, 18%, 33%)",
+				"bg_hex_start": "hsl(54, 66%, 59%)",
+				"bg_hex_end": "hsl(54, 66%, 39%)",
+				"art_offset_x": 0,
+				"art_offset_y": 0,
+				"art_scale": 0.55,
+				"text_color": "hsl(0, 100%, 100%)",
+				"card_art_border_color": "hsl(129, 18%, 43%)",
 				"drop_shadow_color": "hsl(0, 0%, 0%)"
 			}
 		}
