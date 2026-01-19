@@ -47,6 +47,7 @@ module.exports = {
 			.setCustomId(`roleScraperModal_notes_${targetRole.id}`)
 			.setLabel('Notes (these are visible to the user!)')
 			.setPlaceholder(result === undefined ? 'You\'re a cool dude!' : result.notes)
+			.setValue(result === undefined ? '' : result.notes)
 			.setStyle(TextInputStyle.Paragraph)
 			.setMaxLength(64)
 			.setRequired(true);
