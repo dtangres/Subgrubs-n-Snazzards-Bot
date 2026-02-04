@@ -73,7 +73,8 @@ module.exports = {
 			const userList = result.map(x => `<@${x.snowflake}>`).join(' ');
 			const announcement = `Ping by ${interaction.member.displayName}!`;
 			await interaction.reply({ content: `${announcement}\n\n-# ${userList}`, embeds: [getDefaultEmbed().setDescription(`Pinglist \`${name}\` invoked!\n\nUsers pinged: \`${result.length}\``)], components: pinglistMessageContents });
-			await interaction.editReply({ content: `${announcement}` });
+			// eslint-disable-next-line capitalized-comments
+			// await interaction.editReply({ content: `${announcement}` });
 		} else if (operation === 'assess') {
 			await interaction.guild.members.fetch();
 			query = 'SELECT `snowflake` FROM `pinglist` WHERE `record` = \'subscriber\' AND `name` = ? AND `serverID` = ?;';
