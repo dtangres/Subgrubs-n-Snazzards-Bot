@@ -1,11 +1,10 @@
-const { SlashCommandBuilder, ModalBuilder, ActionRowBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
 const { fetchSQL } = require('../utils/db');
-const { cutoffWithEllipsis } = require('../utils/stringy');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('dev-rolescraper')
-		.setDescription('<DEV COMMAND> scrape user roles and output to file')
+		.setDescription('<DEV COMMAND> scrape users of a role and log to database')
 		.addRoleOption((option) =>
 			option
 				.setName('role')
@@ -19,6 +18,7 @@ module.exports = {
 		const guild = await interaction.client.guilds.cache.get(process.env.GUILD_ID);
 		// Fetch roles
 		await guild.roles.fetch();
+		await guild.members.fetch();
 		// Fetch specific role
 		const targetRole = interaction.options.getRole('role');
 		// Fetch role users
@@ -29,35 +29,21 @@ module.exports = {
 			return;
 		}
 		// Check if role exists in the database
-		const query = 'SELECT `title`, `notes` FROM `achievement` WHERE `id` = ?';
+		let query = 'SELECT `title`, `notes` FROM `achievement` WHERE `id` = ?';
 		const result = (await fetchSQL(query, [targetRole.id]))[0];
-		// If so, populate modal values with existing flavor/title text
-		const titleRow = new ActionRowBuilder();
-		const titleBox = new TextInputBuilder()
-			.setCustomId(`roleScraperModal_title_${targetRole.id}`)
-			.setLabel('Title')
-			.setPlaceholder(result === undefined ? 'Cool Dude' : result.title)
-			.setValue(result === undefined ? targetRole.name : result.title)
-			.setStyle(TextInputStyle.Short)
-			.setMaxLength(64)
-			.setRequired(true);
-		titleRow.addComponents(titleBox);
-		const notesRow = new ActionRowBuilder();
-		const notesBox = new TextInputBuilder()
-			.setCustomId(`roleScraperModal_notes_${targetRole.id}`)
-			.setLabel('Notes (these are visible to the user!)')
-			.setPlaceholder(result === undefined ? 'You\'re a cool dude!' : result.notes)
-			.setValue(result === undefined ? '' : result.notes)
-			.setStyle(TextInputStyle.Paragraph)
-			.setMaxLength(64)
-			.setRequired(true);
-		notesRow.addComponents(notesBox);
-		const modal = new ModalBuilder()
-			.setCustomId(`roleScraperModal_${targetRole.id}`)
-			.setTitle(cutoffWithEllipsis(`Update Role Details: ${targetRole.name}`, 45))
-			.addComponents(titleRow, notesRow);
-		// Open modal
-		await interaction.showModal(modal);
+		let nonUpdatedUsers;
+		if (result !== undefined) {
+			query = 'SELECT `snowflake`, `achievements` FROM `player` WHERE (`achievements` NOT LIKE ? OR `achievements` IS NULL) AND `snowflake` IN (?)';
+			nonUpdatedUsers = await fetchSQL(query, [`%${targetRole.id}%`, roleUsers]);
+			for (const user of nonUpdatedUsers) {
+				const { snowflake, achievements } = user;
+				const updatedAchievements = `${achievements ?? ''}${achievements ? ' ' : ''}${targetRole.id}`;
+				query = 'UPDATE `player` SET `achievements` = ? WHERE `snowflake` = ?';
+				await fetchSQL(query, [updatedAchievements, snowflake]);
+			}
+		}
+		await interaction.reply({ content: `${nonUpdatedUsers.length} rows updated; interaction complete.\n<@&${targetRole.id}> has been logged.\nPlease wait a minute or so before calling this command again to avoid rate-limiting.`, ephemeral: true });
+		return;
 	},
 };
 
