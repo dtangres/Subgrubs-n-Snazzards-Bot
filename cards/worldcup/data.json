@@ -18,7 +18,9 @@
 			"udolnichodec",
 			"szornarkany",
 			"peistchroi",
-			"megamuc mor"
+			"megamuc mor",
+			"dreadwing eclipsion",
+			"nightsteel terranought"
 		],
 		"drop_table": [
 			"loamtrench wailer",
@@ -36,7 +38,9 @@
 			"udolnichodec",
 			"szornarkany",
 			"peistchroi",
-			"megamuc mor"
+			"megamuc mor",
+			"dreadwing eclipsion",
+			"nightsteel terranought"
 		],
 		"cards": {
 			"loamtrench wailer": {
@@ -293,6 +297,38 @@
 				"art_scale": 0.55,
 				"text_color": "hsl(0, 100%, 100%)",
 				"card_art_border_color": "hsl(129, 18%, 43%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"dreadwing eclipsion": {
+				"card_name": "Dreadwing Eclipsion",
+				"art_path": "Dreadwing Eclipsion.png",
+				"description": "🎨 Art by **Hyde**",
+				"card_border_color": "hsl(29, 100%, 62%)",
+				"bg_grd_start": "hsl(29, 100%, 62%)",
+				"bg_grd_end": "hsl(29, 100%, 42%)",
+				"bg_hex_start": "hsl(52, 64%, 73%)",
+				"bg_hex_end": "hsl(52, 64%, 53%)",
+				"art_offset_x": 0,
+				"art_offset_y": 0,
+				"art_scale": 0.25,
+				"text_color": "hsl(0, 100%, 100%)",
+				"card_art_border_color": "hsl(29, 100%, 62%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"nightsteel terranought": {
+				"card_name": "Nightsteel Terranought",
+				"art_path": "Nightsteel Terranought.png",
+				"description": "🎨 Art by **KZ**",
+				"card_border_color": "hsl(224, 13%, 67%)",
+				"bg_grd_start": "hsl(224, 13%, 67%)",
+				"bg_grd_end": "hsl(224, 13%, 57%)",
+				"bg_hex_start": "hsl(217, 21%, 47%)",
+				"bg_hex_end": "hsl(217, 21%, 37%)",
+				"art_offset_x": 0,
+				"art_offset_y": 0,
+				"art_scale": 0.3,
+				"text_color": "hsl(0, 100%, 100%)",
+				"card_art_border_color": "hsl(224, 13%, 67%)",
 				"drop_shadow_color": "hsl(0, 0%, 0%)"
 			}
 		}
