@@ -24,7 +24,7 @@ module.exports = {
 		commands.forEach(element => {
 			commandDict[element.name] = { id: element.id, desc: element.description };
 		});
-		const helpList = Object.keys(categoryDict);
+		const helpList = Object.keys(categoryDict).filter(x => !x.toLowerCase().includes('dev'));
 		helpList.sort();
 		helpList.forEach(element => {
 			helpTextArr.push(`### ${element}`);
