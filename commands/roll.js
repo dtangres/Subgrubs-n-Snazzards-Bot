@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder } = require('discord.js');
 const { getDefaultEmbed } = require('../utils/stringy');
 const { formatRoll, modStr, getRollColor, formatRawRoll, getRollResultName } = require('../utils/dice');
 const { colorDict } = require('../utils/info');
@@ -13,10 +13,10 @@ module.exports = {
 			option.setName('talent')
 				.setDescription('Specify Talent (default normal)')
 				.addChoices(
-					{ name: 'normal 😐',	value: 0 },
+					{ name: 'normal 😐', value: 0 },
 					{ name: 'talented 🙂', value: 1 },
-					{ name: 'legendary 😃',	value: 2 },
-					{ name: 'inept 🙁',	value: -1 },
+					{ name: 'legendary 😃', value: 2 },
+					{ name: 'inept 🙁', value: -1 },
 					{ name: 'godawful 😧', value: -2 },
 				),
 		).addIntegerOption(option =>
@@ -32,7 +32,7 @@ module.exports = {
 					{ name: '2d8', value: 8 },
 					{ name: '4d4', value: 4 },
 					{ name: '1d16', value: 16 },
-					{ name: '1d6+1d10',	value: 10 },
+					{ name: '1d6+1d10', value: 10 },
 					{ name: '8d2', value: 2 }),
 		),
 	category: 'Game Stuff',
@@ -44,15 +44,14 @@ module.exports = {
 			const lie_regex = /lie/;
 			const regex = /(\d+)?d(\d+)(?:k([lh])(\d+))?(?:([+-])(\d+))?/;
 			if ((m = lie_regex.exec(raw)) !== null) {
-				const truthRow = new ActionRowBuilder();
-				const lieRow = new ActionRowBuilder();
-				const descRow = new ActionRowBuilder();
 				const descBox = new TextInputBuilder()
 					.setCustomId('limeLieRoll_desc')
-					.setLabel('Description')
 					.setPlaceholder('What\'s the roll for?')
 					.setStyle(TextInputStyle.Short);
-				descRow.addComponents(descBox);
+				const descLabel = new LabelBuilder()
+					.setLabel('Description')
+					.setDescription('What\'s the roll for?')
+					.setTextInputComponent(descBox);
 				const truthBox = new TextInputBuilder()
 					.setCustomId('limeLieRoll_truth')
 					.setLabel('Truth')
@@ -60,19 +59,24 @@ module.exports = {
 					.setStyle(TextInputStyle.Short)
 					.setMaxLength(8)
 					.setRequired(true);
-				truthRow.addComponents(truthBox);
+				const truthLabel = new LabelBuilder()
+					.setLabel('Truth')
+					.setDescription('What\'d you *actually* roll?')
+					.setTextInputComponent(truthBox);
 				const lieBox = new TextInputBuilder()
 					.setCustomId('limeLieRoll_lie')
-					.setLabel('Lie')
 					.setPlaceholder('What\'d you decide? (leave blank if no lying)')
 					.setStyle(TextInputStyle.Short)
 					.setMaxLength(8)
 					.setRequired(false);
-				lieRow.addComponents(lieBox);
+				const lieLabel = new LabelBuilder()
+					.setLabel('Lie')
+					.setDescription('What\'s the lie? (Leave blank if not lying)')
+					.setTextInputComponent(lieBox);
 				const modal = new ModalBuilder()
 					.setCustomId('limeLieModal')
 					.setTitle('Input lie details')
-					.addComponents(descRow, truthRow, lieRow);
+					.addLabelComponents(descLabel, truthLabel, lieLabel);
 				await interaction.showModal(modal);
 			} else if ((m = regex.exec(raw)) !== null) {
 				const amt = +(m[1] ?? 1);

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, ButtonBuilder, ButtonStyle, TextInputStyle } = require('discord.js');
+const { SlashCommandBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, ButtonBuilder, ButtonStyle, TextInputStyle, LabelBuilder } = require('discord.js');
 const { getDefaultEmbed } = require('../utils/stringy');
 const { fetchSQL } = require('../utils/db');
 
@@ -105,14 +105,16 @@ module.exports = {
 				const modal = new ModalBuilder()
 					.setCustomId(`pinglist_huddle_${name}_${user}_${serverID}`)
 					.setTitle('Select user for co-hosting your pinglist');
-				modal.addComponents(
-					new ActionRowBuilder().addComponents(
-						new TextInputBuilder()
-							.setCustomId(`pinglist_huddle_target_${name}_${serverID}`)
-							.setLabel('Paste in your target\'s snowflake')
-							.setStyle(TextInputStyle.Short)
-							.setRequired(true),
-					),
+				modal.addLabelComponents(
+					new LabelBuilder()
+						.setLabel('Snowflake')
+						.setDescription('Paste in your target\'s snowflake')
+						.setTextInputComponent(
+							new TextInputBuilder()
+								.setCustomId(`pinglist_huddle_target_${name}_${serverID}`)
+								.setStyle(TextInputStyle.Short)
+								.setRequired(true),
+						),
 				);
 				await interaction.showModal(modal);
 			} else {
@@ -122,16 +124,18 @@ module.exports = {
 			const modal = new ModalBuilder()
 				.setCustomId(`pinglist_rename_${name}_${user}_${serverID}`)
 				.setTitle(`Rename pinglist ${name}`);
-			modal.addComponents(
-				new ActionRowBuilder().addComponents(
-					new TextInputBuilder()
-						.setCustomId(`pinglist_rename_newName_${name}_${user}_${serverID}`)
-						.setLabel('Specify a new name for the pinglist')
-						.setPlaceholder(name)
-						.setStyle(TextInputStyle.Short)
-						.setMaxLength(32)
-						.setRequired(true),
-				),
+			modal.addLabelComponents(
+				new LabelBuilder()
+					.setLabel('New Name')
+					.setDescription('Specify a new name for the pinglist')
+					.setTextInputComponent(
+						new TextInputBuilder()
+							.setCustomId(`pinglist_rename_newName_${name}_${user}_${serverID}`)
+							.setPlaceholder(name)
+							.setStyle(TextInputStyle.Short)
+							.setMaxLength(32)
+							.setRequired(true),
+					),
 			);
 			await interaction.showModal(modal);
 		} else if (operation === 'bestow') {
@@ -146,15 +150,17 @@ module.exports = {
 				const modal = new ModalBuilder()
 					.setCustomId(`pinglist_delete_${name}_${user}_${serverID}`)
 					.setTitle(`Delete pinglist '${name}'`);
-				modal.addComponents(
-					new ActionRowBuilder().addComponents(
-						new TextInputBuilder()
-							.setCustomId(`pinglist_delete_confirm_${name}_${user}_${serverID}`)
-							.setLabel('WARNING: IRREVOCABLE ACTION')
-							.setPlaceholder(`Type '${name}' verbatim to confirm deletion`)
-							.setStyle(TextInputStyle.Short)
-							.setRequired(true),
-					),
+				modal.addLabelComponents(
+					new LabelBuilder()
+						.setLabel('CONFIRM DELETION')
+						.setDescription('WARNING: IRREVOCABLE ACTION')
+						.setTextInputComponent(
+							new TextInputBuilder()
+								.setCustomId(`pinglist_delete_confirm_${name}_${user}_${serverID}`)
+								.setPlaceholder(`Type '${name}' verbatim to confirm deletion`)
+								.setStyle(TextInputStyle.Short)
+								.setRequired(true),
+						),
 				);
 				await interaction.showModal(modal);
 			} else {

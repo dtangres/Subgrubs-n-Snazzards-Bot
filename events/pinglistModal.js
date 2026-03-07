@@ -48,7 +48,7 @@ module.exports = {
 					} else {
 						await interaction.reply({ content: `Your target must be subscribed to the pinglist '${name}'!`, ephemeral: true });
 					}
-				} 
+				}
 			} catch (e) {
 				await interaction.reply({ content: `Something went wrong. Please recheck your input.`, ephemeral: true });
 			}

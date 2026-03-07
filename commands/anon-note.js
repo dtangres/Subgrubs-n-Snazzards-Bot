@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ModalBuilder, ActionRowBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder } = require('discord.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('anon-note')
@@ -11,19 +11,24 @@ module.exports = {
 				.then(() => {
 					// Do nothing
 				});
-			const noteRow = new ActionRowBuilder();
+			const modal = new ModalBuilder()
+				.setCustomId(`anonNoteModal_${interaction.user.id}`)
+				.setTitle('Submit Anonymous Note');
+
+
 			const noteBox = new TextInputBuilder()
 				.setCustomId('anonNote_content')
-				.setLabel('Note')
 				.setPlaceholder('What\'s on your mind?')
 				.setStyle(TextInputStyle.Paragraph)
 				.setMaxLength(2000)
 				.setRequired(true);
-			noteRow.addComponents(noteBox);
-			const modal = new ModalBuilder()
-				.setCustomId(`anonNoteModal_${interaction.user.id}`)
-				.setTitle('Submit Anonymous Note')
-				.addComponents(noteRow);
+
+			const noteLabel = new LabelBuilder()
+				.setLabel('Message')
+				.setTextInputComponent(noteBox);
+
+			modal.addLabelComponents(noteLabel);
+
 			await interaction.showModal(modal);
 		} catch (e) {
 			console.log(e.message);

@@ -1,4 +1,4 @@
-const { Events, ModalBuilder, TextInputStyle, TextInputBuilder, ActionRowBuilder } = require('discord.js');
+const { Events, ModalBuilder, TextInputStyle, TextInputBuilder, LabelBuilder } = require('discord.js');
 const { fetchSQL } = require('../utils/db');
 const { CHAR_LIMIT } = require('../utils/info');
 const { cutoffWithEllipsis } = require('../utils/stringy');
@@ -28,8 +28,10 @@ module.exports = {
 					.setValue(initialText)
 					.setMinLength(0)
 					.setMaxLength(4000);
-				const actionRow = new ActionRowBuilder().addComponents(textBox);
-				modal.addComponents(actionRow);
+				const textLabel = LabelBuilder()
+					.setLabel('Item text for editing')
+					.setTextInputComponent(textBox);
+				modal.addLabelComponents(textLabel);
 				await interaction.showModal(modal);
 			}
 		}

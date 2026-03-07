@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ModalBuilder, ActionRowBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder } = require('discord.js');
 const { fetchSQL } = require('../utils/db');
 const { titleCase } = require('../utils/stringy');
 const { starterTypes } = require('../utils/info');
@@ -50,28 +50,31 @@ module.exports = {
 						result = await fetchSQL(query, [user, name, starterTypes[i]]);
 						text = result[0].content;
 					}
-					modal.addComponents(
-						new ActionRowBuilder().addComponents(
-							new TextInputBuilder()
-								.setCustomId(`${idTemplate}_${starterTypes[i]}`)
-								.setLabel(`${titleCase(starterTypes[i])} Text`)
-								.setStyle(i % 2 ? TextInputStyle.Paragraph : TextInputStyle.Short)
-								.setValue(text)
-								.setRequired(true),
-						),
+					modal.addLabelComponents(
+						new LabelBuilder()
+							.setLabel(`${titleCase(starterTypes[i])} Text`)
+							.setTextInputComponent(
+								new TextInputBuilder()
+									.setCustomId(`${idTemplate}_${starterTypes[i]}`)
+									.setStyle(i % 2 ? TextInputStyle.Paragraph : TextInputStyle.Short)
+									.setValue(text)
+									.setRequired(true),
+							),
 					);
 				}
 				await interaction.showModal(modal);
 			} else if (op === 'remove') {
-				modal.addComponents(
-					new ActionRowBuilder().addComponents(
-						new TextInputBuilder()
-							.setCustomId(`${idTemplate}_confirm`)
-							.setLabel('WARNING: IRREVOCABLE ACTION')
-							.setPlaceholder(`Type '${titleCase(name)}' verbatim to confirm deletion`)
-							.setStyle(TextInputStyle.Short)
-							.setRequired(true),
-					),
+				modal.addLabelComponents(
+					new LabelBuilder()
+						.setLabel('Cofnrim Deletion')
+						.setDescription('WARNING: IRREVOCABLE ACTION')
+						.setTextInputComponent(
+							new TextInputBuilder()
+								.setCustomId(`${idTemplate}_confirm`)
+								.setPlaceholder(`Type '${titleCase(name)}' verbatim to confirm deletion`)
+								.setStyle(TextInputStyle.Short)
+								.setRequired(true),
+						),
 				);
 				await interaction.showModal(modal);
 			}

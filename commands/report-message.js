@@ -1,4 +1,4 @@
-const { ContextMenuCommandBuilder, ApplicationCommandType, ActionRowBuilder, TextInputBuilder, TextInputStyle, ModalBuilder } = require('discord.js');
+const { ContextMenuCommandBuilder, ApplicationCommandType, TextInputBuilder, TextInputStyle, ModalBuilder, LabelBuilder } = require('discord.js');
 const { getExcerpt } = require('../utils/stringy');
 module.exports = {
 	data: new ContextMenuCommandBuilder()
@@ -12,20 +12,23 @@ module.exports = {
 			} else {
 				const guild = await interaction.client.guilds.cache.get(process.env.GUILD_ID);
 				await guild.members.fetch(interaction.user.id);
-				const noteRow = new ActionRowBuilder();
 				const noteBox = new TextInputBuilder()
 					.setCustomId('anonNote_content')
-					.setLabel('Note')
 					.setPlaceholder('What\'s on your mind?')
 					.setStyle(TextInputStyle.Paragraph)
 					.setMaxLength(2000)
 					.setValue(`<Type message here>\n\nMessage from \`@${interaction.targetMessage.author.username}\` (${interaction.targetMessage.url})\n>>> ${getExcerpt(interaction.targetMessage.content)}`)
 					.setRequired(true);
-				noteRow.addComponents(noteBox);
+
+				const noteLabel = new LabelBuilder()
+					.setLabel('Message')
+					.setTextInputComponent(noteBox);
+
 				const modal = new ModalBuilder()
 					.setCustomId(`anonNoteModal_${interaction.user.id}_`)
 					.setTitle('Submit Anonymous Note')
-					.addComponents(noteRow);
+					.addLabelComponents(noteLabel);
+
 				await interaction.showModal(modal);
 			}
 		} catch (e) {

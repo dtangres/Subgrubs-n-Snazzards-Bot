@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder } = require('discord.js');
 const { fetchSQL } = require('../utils/db');
 const { camelize, dictList } = require('../utils/stringy');
 const { tableNames } = require('../utils/info');
@@ -66,16 +66,16 @@ module.exports = {
 			const table = camelize(interaction.options.getString('table'));
 			const query = 'SHOW COLUMNS FROM ??';
 			const queryResult = await fetchSQL(query, [table]);
+
 			const modal = new ModalBuilder()
 				.setCustomId(`patchAddModal_${table}`)
 				.setTitle(`Enter new entry for ${table}`);
+
 			for (const item of queryResult) {
-				const actionRow = new ActionRowBuilder();
 				const label = item['Field'];
 				if (label === 'key') continue;
 				const textBox = new TextInputBuilder()
 					.setCustomId(`patchAddTextInput_${table}_${label}`)
-					.setLabel(`Enter ${label}`)
 					.setRequired(true);
 				if (label === 'text') {
 					textBox
@@ -85,8 +85,12 @@ module.exports = {
 				} else {
 					textBox.setStyle(TextInputStyle.Short);
 				}
-				actionRow.addComponents(textBox);
-				modal.addComponents(actionRow);
+
+				const textLabel = new LabelBuilder()
+					.setLabel(`Enter ${label}`)
+					.setTextInputComponent(textBox);
+
+				modal.addLabelComponents(textLabel);
 			}
 			await interaction.showModal(modal);
 		} else if (interaction.options.getSubcommand() === 'edit') {
@@ -122,15 +126,18 @@ module.exports = {
 				const modal = new ModalBuilder()
 					.setCustomId(`patchDropModal_${table}_${key}`)
 					.setTitle(`Delete ${table} : ${key}`);
-				const actionRow = new ActionRowBuilder();
+
 				const textBox = new TextInputBuilder()
 					.setCustomId(`patchDropTextInput_${table}_${key}`)
-					.setLabel('WARNING: IRREVOCABLE ACTION')
 					.setPlaceholder(`Type '${key}' verbatim to confirm deletion`)
 					.setStyle(TextInputStyle.Short)
 					.setRequired(true);
-				actionRow.addComponents(textBox);
-				modal.addComponents(actionRow);
+
+				const textLabel = new LabelBuilder()
+					.setLabel('CONFIRM DELETION')
+					.setTextInputComponent(textBox);
+
+				modal.addLabelComponents(textLabel);
 				await interaction.showModal(modal);
 			} else {
 				await interaction.reply({ content: `Sorry, I couldn't find anything for key '${key}' in table '${table}'. Check your spelling and try again!`, ephemeral: true });

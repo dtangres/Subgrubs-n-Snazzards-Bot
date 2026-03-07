@@ -19,7 +19,7 @@ module.exports = {
 				);
 			const payload = { content: noteText, components: [row] };
 			await interaction.client.guilds.cache.get(process.env.GUILD_ID).channels.cache.get(process.env.ANON_CHANNEL).send(payload);
-			await interaction.reply({ content:'Your message was successfully sent!', allowedMentions: { users: [] }, ephemeral: true });
+			await interaction.reply({ content: 'Your message was successfully sent!', allowedMentions: { users: [] }, ephemeral: true });
 		} else if (id.startsWith('anonNoteReplyModal')) {
 			await interaction.deferReply();
 			const details = id.replace('anonNoteReplyModal_', '').split('_');
@@ -29,7 +29,7 @@ module.exports = {
 			await interaction.client.users.fetch(snowflake, false).then((user) => {
 				user.send(payload);
 			});
-			await interaction.editReply({ content:`Your reply was successfully sent:\n\n>>> ${noteText}`, allowedMentions: { users: [] } });
+			await interaction.editReply({ content: `Your reply was successfully sent:\n\n>>> ${noteText}`, allowedMentions: { users: [] } });
 		}
 	},
 };

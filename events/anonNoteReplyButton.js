@@ -1,4 +1,4 @@
-const { Events, ActionRowBuilder, TextInputBuilder, TextInputStyle, ModalBuilder } = require('discord.js');
+const { Events, TextInputBuilder, TextInputStyle, ModalBuilder, LabelBuilder } = require('discord.js');
 require('dotenv').config();
 
 module.exports = {
@@ -9,19 +9,19 @@ module.exports = {
 		if (id.startsWith('anonNote_replyButton')) {
 			const details = id.replace('anonNote_replyButton_', '').split('_');
 			const [snowflake] = details;
-			const noteRow = new ActionRowBuilder();
 			const noteBox = new TextInputBuilder()
 				.setCustomId('anonNoteReply_content')
-				.setLabel('Note')
 				.setPlaceholder('Enter your reply here')
 				.setStyle(TextInputStyle.Paragraph)
 				.setMaxLength(2000)
 				.setRequired(true);
-			noteRow.addComponents(noteBox);
+			const noteLabel = new LabelBuilder()
+				.setLabel('Note Reply')
+				.setTextInputComponent(noteBox);
 			const modal = new ModalBuilder()
 				.setCustomId(`anonNoteReplyModal_${snowflake}`)
 				.setTitle('Submit Anonymous Note Reply')
-				.addComponents(noteRow);
+				.addLabelComponents(noteLabel);
 			await interaction.showModal(modal);
 		}
 	},
