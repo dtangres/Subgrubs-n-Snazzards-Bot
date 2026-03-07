@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const { fanmadeLinks } = require('../utils/info');
 const { easyListItems } = require('../utils/math');
 
@@ -17,6 +17,6 @@ module.exports = {
 	category: 'Game Stuff',
 	async execute(interaction) {
 		const choice = fanmadeLinks[interaction.options.getString('document')];
-		await interaction.reply({ content: choice, ephemeral: true });
+		await interaction.reply({ content: choice, flags: MessageFlags.Ephemeral });
 	},
 };

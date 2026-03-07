@@ -1,4 +1,4 @@
-const { Events, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { Events, ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageFlags } = require('discord.js');
 require('dotenv').config();
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
 				);
 			const payload = { content: noteText, components: [row] };
 			await interaction.client.guilds.cache.get(process.env.GUILD_ID).channels.cache.get(process.env.ANON_CHANNEL).send(payload);
-			await interaction.reply({ content: 'Your message was successfully sent!', allowedMentions: { users: [] }, ephemeral: true });
+			await interaction.reply({ content: 'Your message was successfully sent!', allowedMentions: { users: [] }, flags: MessageFlags.Ephemeral });
 		} else if (id.startsWith('anonNoteReplyModal')) {
 			await interaction.deferReply();
 			const details = id.replace('anonNoteReplyModal_', '').split('_');

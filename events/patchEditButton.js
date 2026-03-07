@@ -1,4 +1,4 @@
-const { Events, ModalBuilder, TextInputStyle, TextInputBuilder, LabelBuilder } = require('discord.js');
+const { Events, ModalBuilder, TextInputStyle, TextInputBuilder, LabelBuilder, MessageFlags } = require('discord.js');
 const { fetchSQL } = require('../utils/db');
 const { CHAR_LIMIT } = require('../utils/info');
 const { cutoffWithEllipsis } = require('../utils/stringy');
@@ -18,7 +18,7 @@ module.exports = {
 			const queryResult = await fetchSQL(query, [column, table, key]);
 			const initialText = queryResult[0][column];
 			if (initialText.length > CHAR_LIMIT) {
-				await interaction.reply({ content: 'Sorry! Due to Discord\'s API limitations, I can\'t provide this information to you. Please contact another dev to request changes. Apologies for the inconvenience.', ephemeral: true });
+				await interaction.reply({ content: 'Sorry! Due to Discord\'s API limitations, I can\'t provide this information to you. Please contact another dev to request changes. Apologies for the inconvenience.', flags: MessageFlags.Ephemeral });
 			} else {
 				const textBox = new TextInputBuilder()
 					.setCustomId(`patchEditTextInput_${table}_${key}_${column}`)

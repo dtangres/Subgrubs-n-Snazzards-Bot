@@ -1,4 +1,4 @@
-const { Events } = require('discord.js');
+const { Events, MessageFlags } = require('discord.js');
 const { fetchSQL } = require('../utils/db');
 
 module.exports = {
@@ -13,16 +13,16 @@ module.exports = {
 			let query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `record` = \'owner\' AND `snowflake` = ? AND `serverID` = ?';
 			let result = await fetchSQL(query, [name, user, serverID]);
 			if (result.length) {
-				await interaction.reply({ content: 'You are an owner of this pinglist; you don\'t need to join!', ephemeral: true });
+				await interaction.reply({ content: 'You are an owner of this pinglist; you don\'t need to join!', flags: MessageFlags.Ephemeral });
 			} else {
 				query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `record` = \'subscriber\' AND `snowflake` = ? AND `serverID` = ?';
 				result = await fetchSQL(query, [name, user, serverID]);
 				if (!result.length) {
 					query = 'INSERT INTO `pinglist` VALUES (?, \'subscriber\', ?, ?)';
 					await fetchSQL(query, [user, name, serverID]);
-					await interaction.reply({ content: `You joined the \`${name}\` pinglist!`, ephemeral: true });
+					await interaction.reply({ content: `You joined the \`${name}\` pinglist!`, flags: MessageFlags.Ephemeral });
 				} else {
-					await interaction.reply({ content: `Looks like you're already in the \`${name}\` pinglist! Nice!`, ephemeral: true });
+					await interaction.reply({ content: `Looks like you're already in the \`${name}\` pinglist! Nice!`, flags: MessageFlags.Ephemeral });
 				}
 			}
 		} else if (id.startsWith('pinglist_leave_')) {
@@ -34,21 +34,21 @@ module.exports = {
 				query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `record` = \'owner\' AND `serverID` = ?';
 				result = await fetchSQL(query, [name, serverID]);
 				if (result.length === 1) {
-					await interaction.reply({ content: `Leaving your own pinglist? Use \`/pinglist delete ${name}\` instead.`, ephemeral: true });
+					await interaction.reply({ content: `Leaving your own pinglist? Use \`/pinglist delete ${name}\` instead.`, flags: MessageFlags.Ephemeral });
 				} else {
 					query = 'DELETE FROM `pinglist` WHERE `name` = ? AND `snowflake` = ? AND `record` = \'owner\' AND `serverID` = ?';
 					await fetchSQL(query, [name, user, serverID]);
-					await interaction.reply({ content: `You've left the \`${name}\` pinglist! Goodbye!`, ephemeral: true });
+					await interaction.reply({ content: `You've left the \`${name}\` pinglist! Goodbye!`, flags: MessageFlags.Ephemeral });
 				}
 			} else {
 				query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `record` = \'subscriber\' AND `snowflake` = ? AND `serverID` = ?';
 				result = await fetchSQL(query, [name, user, serverID]);
 				if (!result.length) {
-					await interaction.reply({ content: `You don't seem to be in the \`${name}\` pinglist!`, ephemeral: true });
+					await interaction.reply({ content: `You don't seem to be in the \`${name}\` pinglist!`, flags: MessageFlags.Ephemeral });
 				} else {
 					query = 'DELETE FROM `pinglist` WHERE `name` = ? AND `snowflake` = ? AND `record` = \'subscriber\' AND `serverID` = ?';
 					await fetchSQL(query, [name, user, serverID]);
-					await interaction.reply({ content: `You've left the \`${name}\` pinglist! Goodbye!`, ephemeral: true });
+					await interaction.reply({ content: `You've left the \`${name}\` pinglist! Goodbye!`, flags: MessageFlags.Ephemeral });
 				}
 			}
 		}

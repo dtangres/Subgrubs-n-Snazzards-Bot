@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageFlags } = require('discord.js');
 const { trollFirstNameDict, trollFullNameDict, trollTitleDict } = require('../utils/db');
 const { cleanDiacritics } = require('../utils/stringy');
 
@@ -25,7 +25,7 @@ module.exports = {
 			} else if (trollTitleDict[name]) {
 				reply = trollTitleDict[name];
 			} else {
-				reply = { content: `Sorry, I couldn't find anything for '${name}'.`, ephemeral: true };
+				reply = { content: `Sorry, I couldn't find anything for '${name}'.`, flags: MessageFlags.Ephemeral };
 			}
 		} else if (trollFirstNameDict[name]) {
 			reply = trollFirstNameDict[name];
@@ -49,7 +49,7 @@ module.exports = {
 				}
 				reply = { content: `Please select your desired match for ${name} from the choices below:`, components: componentArray };
 			} else {
-				reply = { content: `Sorry, I couldn't find anything for '${name}'.`, ephemeral: true };
+				reply = { content: `Sorry, I couldn't find anything for '${name}'.`, flags: MessageFlags.Ephemeral };
 			}
 		}
 		await interaction.reply(reply);

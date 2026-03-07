@@ -1,4 +1,4 @@
-const { Events } = require('discord.js');
+const { Events, MessageFlags } = require('discord.js');
 const { fetchSQL } = require('../utils/db');
 const { titleCase } = require('../utils/stringy');
 
@@ -15,9 +15,9 @@ module.exports = {
 			if (confirm.toLowerCase() === name) {
 				query = 'DELETE FROM `pinglist` WHERE `name` = ? AND `serverID` = ?';
 				await fetchSQL(query, [name, serverID]);
-				await interaction.reply({ content: `Successfully deleted pinglist for ${titleCase(name)}!`, ephemeral: true });
+				await interaction.reply({ content: `Successfully deleted pinglist for ${titleCase(name)}!`, flags: MessageFlags.Ephemeral });
 			} else {
-				await interaction.reply({ content: 'Sorry, the confirmation prompt failed. Deletion canceled.', ephemeral: true });
+				await interaction.reply({ content: 'Sorry, the confirmation prompt failed. Deletion canceled.', flags: MessageFlags.Ephemeral });
 			}
 		} else if (id.startsWith('pinglist_rename_')) {
 			const details = id.replace('pinglist_rename_', '').split('_');
@@ -26,11 +26,11 @@ module.exports = {
 			let query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `serverID` = ?';
 			const queryResult = await fetchSQL(query, [newName, serverID]);
 			if (queryResult.length) {
-				await interaction.reply({ content: 'Sorry, a pinglist under that name already exists in the system. Please select another name.\n(If this presents a major inconvenience, ping Meme.)', ephemeral: true });
+				await interaction.reply({ content: 'Sorry, a pinglist under that name already exists in the system. Please select another name.\n(If this presents a major inconvenience, ping Meme.)', flags: MessageFlags.Ephemeral });
 			} else {
 				query = 'UPDATE `pinglist` SET `name` = ? WHERE `name` = ? AND `serverID` = ?';
 				await fetchSQL(query, [newName, name, serverID]);
-				await interaction.reply({ content: `Renamed pinglist \`${name}\` to \`${newName}\`.`, ephemeral: true });
+				await interaction.reply({ content: `Renamed pinglist \`${name}\` to \`${newName}\`.`, flags: MessageFlags.Ephemeral });
 			}
 		} else if (id.startsWith("pinglist_huddle")) {
 			const details = id.replace('pinglist_huddle_', '').split("_");
@@ -44,13 +44,13 @@ module.exports = {
 					if (queryResult.length) {
 						const command = "UPDATE `pinglist` SET `record` = 'owner' WHERE `name` = ? AND `snowflake` = ? AND `serverID` = ?";
 						await fetchSQL(command, [name, target, serverID]);
-						await interaction.reply({ content: `Successfully made the target part of the pinglist '${name}'!`, ephemeral: true });
+						await interaction.reply({ content: `Successfully made the target part of the pinglist '${name}'!`, flags: MessageFlags.Ephemeral });
 					} else {
-						await interaction.reply({ content: `Your target must be subscribed to the pinglist '${name}'!`, ephemeral: true });
+						await interaction.reply({ content: `Your target must be subscribed to the pinglist '${name}'!`, flags: MessageFlags.Ephemeral });
 					}
 				}
 			} catch (e) {
-				await interaction.reply({ content: `Something went wrong. Please recheck your input.`, ephemeral: true });
+				await interaction.reply({ content: `Something went wrong. Please recheck your input.`, flags: MessageFlags.Ephemeral });
 			}
 		}
 	},

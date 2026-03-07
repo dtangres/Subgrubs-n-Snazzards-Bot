@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const { getDefaultEmbed } = require('../utils/stringy');
 const { fetchSQL } = require('../utils/db');
 
@@ -26,12 +26,12 @@ module.exports = {
 			const queryResult = await fetchSQL(query, [username.id]);
 			if (queryResult.length) {
 				const docLink = queryResult[0].docLink;
-				await interaction.reply({ content:docLink, ephemeral: !public });
+				await interaction.reply({ content: docLink, ephemeral: !public });
 			} else {
 				console.log(`No information found for ${username}.`);
 				const embed = new getDefaultEmbed()
 					.setDescription(`Sorry, I couldn't find anything for '${username}'.`);
-				await interaction.reply({ embeds: [embed], ephemeral: true });
+				await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
 			}
 		} else {
 			await interaction.reply(`https://docs.google.com/spreadsheets/d/${process.env.TROLL_CALL_DOC_ID}/edit#gid=0`);

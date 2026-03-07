@@ -1,4 +1,4 @@
-const { Events } = require('discord.js');
+const { Events, MessageFlags } = require('discord.js');
 const { fetchSQL } = require('../utils/db');
 const { camelize } = require('../utils/stringy');
 
@@ -13,7 +13,7 @@ module.exports = {
 			const updatedText = interaction.fields.getTextInputValue(`patchEditTextInput_${table}_${key}_${column}`);
 			const query = 'UPDATE ?? SET ?? = ? WHERE `key` = ?';
 			await fetchSQL(query, [table, column, updatedText, key]);
-			await interaction.reply({ content:`Updated column \`${column}\` for key \`${key}\` in table \`${table}\` to new value.`, ephemeral: true });
+			await interaction.reply({ content: `Updated column \`${column}\` for key \`${key}\` in table \`${table}\` to new value.`, flags: MessageFlags.Ephemeral });
 		} else if (id.startsWith('patchAddModal_')) {
 			const details = id.replace('patchAddModal_', '').split('_');
 			const [table] = details;
@@ -32,7 +32,7 @@ module.exports = {
 			}
 			query = 'INSERT INTO ?? VALUES (?);';
 			await fetchSQL(query, [table, values]);
-			await interaction.reply({ content:`Added entry \`${key}\` in table \`${table}\` to new value.`, ephemeral: true });
+			await interaction.reply({ content: `Added entry \`${key}\` in table \`${table}\` to new value.`, flags: MessageFlags.Ephemeral });
 		} else if (id.startsWith('patchDropModal_')) {
 			const details = id.replace('patchDropModal_', '').split('_');
 			const [table, key] = details;
@@ -40,9 +40,9 @@ module.exports = {
 			if (confirmText === key) {
 				const query = 'DELETE FROM ?? WHERE `key` = ?';
 				await fetchSQL(query, [table, key]);
-				await interaction.reply({ content:`Removed entry \`${key}\` in table \`${table}\`.`, ephemeral: true });
+				await interaction.reply({ content: `Removed entry \`${key}\` in table \`${table}\`.`, flags: MessageFlags.Ephemeral });
 			} else {
-				await interaction.reply({ content: 'Sorry, your text entry didn\'t match, and because of Discord API limitations I can\'t display the same modal again. Apologies for the inconvenience.', ephemeral: true });
+				await interaction.reply({ content: 'Sorry, your text entry didn\'t match, and because of Discord API limitations I can\'t display the same modal again. Apologies for the inconvenience.', flags: MessageFlags.Ephemeral });
 			}
 		}
 	},

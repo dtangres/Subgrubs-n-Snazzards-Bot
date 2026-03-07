@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder } = require('discord.js');
+const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder, MessageFlags } = require('discord.js');
 const { fetchSQL } = require('../utils/db');
 const { camelize, dictList } = require('../utils/stringy');
 const { tableNames } = require('../utils/info');
@@ -61,7 +61,7 @@ module.exports = {
 	async execute(interaction) {
 		// Rejects attempt if user isn't in guild
 		if (interaction.guildId !== process.env.GUILD_ID) {
-			await interaction.reply({ content: 'Sorry, you can\'t use that command here.', ephemeral: true });
+			await interaction.reply({ content: 'Sorry, you can\'t use that command here.', flags: MessageFlags.Ephemeral });
 		} else if (interaction.options.getSubcommand() === 'add') {
 			const table = camelize(interaction.options.getString('table'));
 			const query = 'SHOW COLUMNS FROM ??';
@@ -112,9 +112,9 @@ module.exports = {
 							.setStyle(ButtonStyle.Primary),
 					);
 				}
-				await interaction.reply({ components: [buttons], ephemeral: true });
+				await interaction.reply({ components: [buttons], flags: MessageFlags.Ephemeral });
 			} else {
-				await interaction.reply({ content: `Sorry, I couldn't find anything for key '${key}' in table '${table}'. Check your spelling and try again!`, ephemeral: true });
+				await interaction.reply({ content: `Sorry, I couldn't find anything for key '${key}' in table '${table}'. Check your spelling and try again!`, flags: MessageFlags.Ephemeral });
 			}
 		} else if (interaction.options.getSubcommand() === 'drop') {
 			const table = camelize(interaction.options.getString('table'));
@@ -140,7 +140,7 @@ module.exports = {
 				modal.addLabelComponents(textLabel);
 				await interaction.showModal(modal);
 			} else {
-				await interaction.reply({ content: `Sorry, I couldn't find anything for key '${key}' in table '${table}'. Check your spelling and try again!`, ephemeral: true });
+				await interaction.reply({ content: `Sorry, I couldn't find anything for key '${key}' in table '${table}'. Check your spelling and try again!`, flags: MessageFlags.Ephemeral });
 			}
 		}
 	},

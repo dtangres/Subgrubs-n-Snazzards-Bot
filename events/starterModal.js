@@ -1,4 +1,4 @@
-const { Events } = require('discord.js');
+const { Events, MessageFlags } = require('discord.js');
 const { fetchSQL } = require('../utils/db');
 const { titleCase } = require('../utils/stringy');
 const { starterTypes } = require('../utils/info');
@@ -17,7 +17,7 @@ module.exports = {
 				query = 'INSERT INTO `starter` VALUES (?, ?, ?, ?)';
 				await fetchSQL(query, [user, name, starterTypes[i], updatedText]);
 			}
-			await interaction.reply({ content: `Succesfully added text for ${titleCase(name)}!`, ephemeral: true });
+			await interaction.reply({ content: `Succesfully added text for ${titleCase(name)}!`, flags: MessageFlags.Ephemeral });
 		} else if (id.startsWith('starter_edit_')) {
 			const details = id.replace('starter_edit_', '').split('_');
 			const [user, name] = details;
@@ -27,7 +27,7 @@ module.exports = {
 				query = 'UPDATE `starter` SET `content` = ? WHERE `snowflake` = ? AND `name` = ? AND `type` = ?';
 				await fetchSQL(query, [updatedText, user, name, starterTypes[i]]);
 			}
-			await interaction.reply({ content: `Succesfully updated text for ${titleCase(name)}!`, ephemeral: true });
+			await interaction.reply({ content: `Succesfully updated text for ${titleCase(name)}!`, flags: MessageFlags.Ephemeral });
 		} else if (id.startsWith('starter_remove_')) {
 			const details = id.replace('starter_remove_', '').replace('_confirm', '').split('_');
 			const [user, name] = details;
@@ -37,9 +37,9 @@ module.exports = {
 
 				query = 'DELETE FROM `starter` WHERE `snowflake` = ? AND `name` = ?';
 				await fetchSQL(query, [user, name]);
-				await interaction.reply({ content: `Succesfully removed text for ${titleCase(name)}!`, ephemeral: true });
+				await interaction.reply({ content: `Succesfully removed text for ${titleCase(name)}!`, flags: MessageFlags.Ephemeral });
 			} else {
-				await interaction.reply({ content: 'Sorry, the confirmation prompt failed. Removal canceled.', ephemeral: true });
+				await interaction.reply({ content: 'Sorry, the confirmation prompt failed. Removal canceled.', flags: MessageFlags.Ephemeral });
 			}
 		}
 	},

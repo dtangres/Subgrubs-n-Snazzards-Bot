@@ -1,4 +1,4 @@
-const { ContextMenuCommandBuilder, ApplicationCommandType, TextInputBuilder, TextInputStyle, ModalBuilder, LabelBuilder } = require('discord.js');
+const { ContextMenuCommandBuilder, ApplicationCommandType, TextInputBuilder, TextInputStyle, ModalBuilder, LabelBuilder, MessageFlags } = require('discord.js');
 const { getExcerpt } = require('../utils/stringy');
 module.exports = {
 	data: new ContextMenuCommandBuilder()
@@ -8,7 +8,7 @@ module.exports = {
 		try {
 			// Throws error if user isn't in the guild
 			if (interaction.guildId !== process.env.GUILD_ID) {
-				await interaction.reply({ content: 'Sorry, you can\'t use that command here.', ephemeral: true });
+				await interaction.reply({ content: 'Sorry, you can\'t use that command here.', flags: MessageFlags.Ephemeral });
 			} else {
 				const guild = await interaction.client.guilds.cache.get(process.env.GUILD_ID);
 				await guild.members.fetch(interaction.user.id);

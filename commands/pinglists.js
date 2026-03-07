@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const { getDefaultEmbed } = require('../utils/stringy');
 const { fetchSQL } = require('../utils/db');
 
@@ -19,6 +19,6 @@ module.exports = {
 		} else {
 			embed.setDescription('You have the following pinglists in this server:\n' + result.map(x => `- \`${x.name}\` (**${x.count}** member${(x.count === 1 ? '' : 's')})`).join('\n'));
 		}
-		interaction.reply({ embeds: [embed], ephemeral: true });
+		interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
 	},
 };

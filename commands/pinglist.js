@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, ButtonBuilder, ButtonStyle, TextInputStyle, LabelBuilder } = require('discord.js');
+const { SlashCommandBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, ButtonBuilder, ButtonStyle, TextInputStyle, LabelBuilder, MessageFlags } = require('discord.js');
 const { getDefaultEmbed } = require('../utils/stringy');
 const { fetchSQL } = require('../utils/db');
 
@@ -56,17 +56,17 @@ module.exports = {
 				query = 'SELECT * FROM `pinglist` WHERE `name` = ? and `serverID` = ?';
 				const queryResult = await fetchSQL(query, [name, serverID]);
 				if (queryResult.length) {
-					await interaction.reply({ content: 'Sorry, a pinglist under that name already exists on this server. Please select another name.\n(If this presents a major inconvenience, ping Meme.)', ephemeral: true });
+					await interaction.reply({ content: 'Sorry, a pinglist under that name already exists on this server. Please select another name.\n(If this presents a major inconvenience, ping Meme.)', flags: MessageFlags.Ephemeral });
 				} else {
 					query = 'INSERT INTO `pinglist` VALUES (?, \'owner\', ?, ?)';
 					await fetchSQL(query, [user, name, serverID]);
 					await interaction.reply({ embeds: [getDefaultEmbed().setDescription(`Pinglist \`${name}\` **created**!`)], components: pinglistMessageContents });
 				}
 			} else {
-				await interaction.reply({ content: `You don't seem to have a pinglist under the name '${name}' on this server! Check your spelling and try again.`, ephemeral: true });
+				await interaction.reply({ content: `You don't seem to have a pinglist under the name '${name}' on this server! Check your spelling and try again.`, flags: MessageFlags.Ephemeral });
 			}
 		} else if (operation === 'create') {
-			await interaction.reply({ content: `It seems like you already have a pinglist named '${name}' on this server!`, ephemeral: true });
+			await interaction.reply({ content: `It seems like you already have a pinglist named '${name}' on this server!`, flags: MessageFlags.Ephemeral });
 		} else if (operation === 'invoke') {
 			query = 'SELECT `snowflake` FROM `pinglist` WHERE `name` = ? AND `serverID` = ? AND `record` != \'hash\'';
 			result = await fetchSQL(query, [name, serverID]);
@@ -97,7 +97,7 @@ module.exports = {
 				ownerList.push(userName !== null ? `- \`${userName.user.username}#${userName.user.discriminator}\`` : '- `UNKNOWN USER`');
 			}
 			const ownerNames = ownerList.map(x => x).join('\n');
-			await interaction.reply({ content: `The following users are subscribed to the pinglist \`${name}\`:\n ${userNames} \n\nThe following users own this list:\n ${ownerNames}`, ephemeral: true });
+			await interaction.reply({ content: `The following users are subscribed to the pinglist \`${name}\`:\n ${userNames} \n\nThe following users own this list:\n ${ownerNames}`, flags: MessageFlags.Ephemeral });
 		} else if (operation === 'huddle') {
 			query = 'SELECT `snowflake` FROM `pinglist` WHERE `record` = \'subscriber\' AND `name` = ? AND `serverID` = ?';
 			result = await fetchSQL(query, [name, serverID]);
@@ -118,7 +118,7 @@ module.exports = {
 				);
 				await interaction.showModal(modal);
 			} else {
-				await interaction.reply({ content: 'There are no non-owner subscribers to grant ownership to!', ephemeral: true });
+				await interaction.reply({ content: 'There are no non-owner subscribers to grant ownership to!', flags: MessageFlags.Ephemeral });
 			}
 		} else if (operation === 'rename') {
 			const modal = new ModalBuilder()
@@ -164,7 +164,7 @@ module.exports = {
 				);
 				await interaction.showModal(modal);
 			} else {
-				await interaction.reply({ content: 'You can\'t delete a pinglist you\'re not the sole owner of.\nIf you don\'t want to be in this one anymore, use `/pinglist bestow` on it and click \'Leave Pinglist\'.', ephemeral: true });
+				await interaction.reply({ content: 'You can\'t delete a pinglist you\'re not the sole owner of.\nIf you don\'t want to be in this one anymore, use `/pinglist bestow` on it and click \'Leave Pinglist\'.', flags: MessageFlags.Ephemeral });
 			}
 		}
 	},

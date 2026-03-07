@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const { rollWeighted } = require('../utils/dice');
 
 const delimiters = ';/, ';
@@ -31,7 +31,7 @@ module.exports = {
 		const secrecy = interaction.options.getBoolean('secret') ?? false;
 		const pick = interaction.options.getInteger('pick') ?? 1;
 		let choices;
-		
+
 		const displayList = [];
 		const weightedChoices = {};
 		let numberOfChoices = 0;
@@ -45,7 +45,7 @@ module.exports = {
 		// If no delimiters exist, only one choice exists to select from
 		// Sausage admonishes the user and returns
 		if (!delimiter) {
-			await interaction.reply({ content: 'dude.', ephemeral: true });
+			await interaction.reply({ content: 'dude.', flags: MessageFlags.Ephemeral });
 			return;
 		}
 
@@ -65,10 +65,10 @@ module.exports = {
 			}
 		}
 		if (numberOfChoices <= pick) {
-			await interaction.reply({ content: `You can't pick ${pick} choices from a list ${numberOfChoices} elements long.`, ephemeral: true });
+			await interaction.reply({ content: `You can't pick ${pick} choices from a list ${numberOfChoices} elements long.`, flags: MessageFlags.Ephemeral });
 			return;
 		} else if (pick <= 0) {
-			await interaction.reply({ content: `You can't pick ${pick} choices from a list.`, ephemeral: true });
+			await interaction.reply({ content: `You can't pick ${pick} choices from a list.`, flags: MessageFlags.Ephemeral });
 		}
 
 		const result = [];
@@ -78,6 +78,6 @@ module.exports = {
 			weightedChoices[select] -= 1;
 		}
 
-		await interaction.reply({ content: `Choices: \n${displayList.join('\n')}\n\nChoice${ pick !== 1 ? 's' : '' } selected: \`${result.join(', ')}\``, ephemeral: secrecy });
+		await interaction.reply({ content: `Choices: \n${displayList.join('\n')}\n\nChoice${pick !== 1 ? 's' : ''} selected: \`${result.join(', ')}\``, ephemeral: secrecy });
 	},
 };

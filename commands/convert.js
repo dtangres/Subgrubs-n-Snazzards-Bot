@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const { round } = require('../utils/math');
 
 module.exports = {
@@ -24,6 +24,6 @@ module.exports = {
 		const units = interaction.options.getString('units');
 		const result = round(units.valueOf() === 'years'.valueOf() ? amount / 2.16 : amount * 2.16, 2);
 		const messageContent = `\`${amount}\` ${units} is approximately equal to ${result} ${units.valueOf() === 'years'.valueOf() ? 'sweeps' : 'years'}.`;
-		await interaction.reply({ content: messageContent, ephemeral: true });
+		await interaction.reply({ content: messageContent, flags: MessageFlags.Ephemeral });
 	},
 };

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const { getDefaultEmbed } = require('../utils/stringy');
 // Const { helpText } = require('../utils/info');
 
@@ -39,6 +39,6 @@ module.exports = {
 		const returnEmbed = getDefaultEmbed()
 			.setDescription(helpTextArr.join('\n'))
 			.setTitle('Command Help');
-		await interaction.reply({ embeds: [returnEmbed], ephemeral: true });
+		await interaction.reply({ embeds: [returnEmbed], flags: MessageFlags.Ephemeral });
 	},
 };

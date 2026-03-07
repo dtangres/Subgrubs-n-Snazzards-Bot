@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const { docDict, docPluralForms } = require('../utils/info');
 const { getDefaultEmbed } = require('../utils/stringy');
 const { getDocLink } = require('../utils/db');
@@ -23,11 +23,11 @@ module.exports = {
 				await interaction.reply({ content: docLink });
 			} else {
 				embed.setDescription(`Sorry, I couldn't find any documents matching \`${choice}\`. Check your spelling and try again.`);
-				await interaction.reply({ embeds: [embed], ephemeral: true });
+				await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
 			}
 		} else {
 			embed.setDescription(`Possible document names:\n\n${Object.keys(docDict).join(', ')}`);
-			await interaction.reply({ embeds: [embed], ephemeral: true });
+			await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
 		}
 
 	},

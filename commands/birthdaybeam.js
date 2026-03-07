@@ -40,7 +40,7 @@ module.exports = {
 					'UPDATE `player` SET `lastBirthdayBeamed` = ? WHERE `snowflake` = ?', [nowMS, target.id],
 				);
 			}
-			await interaction.reply({ content: `\`${target.username}#${target.discriminator}\` has been **birthday beamed**! Bring on the 🍰 reacts!`, ephemeral: false });
+			await interaction.reply(`\`${target.username}#${target.discriminator}\` has been **birthday beamed**! Bring on the 🍰 reacts!`);
 		}
 	},
 };

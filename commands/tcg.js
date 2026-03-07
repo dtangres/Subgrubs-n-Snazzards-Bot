@@ -1,5 +1,5 @@
 /* eslint-disable capitalized-comments */
-const { SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
+const { SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, MessageFlags } = require('discord.js');
 const { getRandomCard, handlePlayerReward, postCard, fetchBinder, getPrettyBinderSummary, addCard, removeCard, pushBinder, checkSessionConflict, SessionStatus, makeNewBinder, isEmptyBinder, isEmptySet, getCardData, validateBinder } = require('../utils/cards');
 const { parseInt64, toString64, getCurrentTimestamp, clamp, objectToListMap } = require('../utils/math');
 const { cardSetList, currentPool, visibleCardSetList, setTranslate, cardTranslate, tradingOn, droppingCards, cardDropWaitTime, dailyBlocker } = require('../utils/info');
@@ -76,13 +76,13 @@ module.exports = {
 	async execute(interaction) {
 		// Rejects attempt if user isn't in guild
 		if (interaction.guildId !== process.env.GUILD_ID) {
-			await interaction.reply({ content: 'Sorry, you can\'t use that command here.', ephemeral: true });
+			await interaction.reply({ content: 'Sorry, you can\'t use that command here.', flags: MessageFlags.Ephemeral });
 		} else {
-		// Player wants to see their binder contents
+			// Player wants to see their binder contents
 			const cardSet = interaction.options.getString('set');
 			if (interaction.options.getSubcommand() === 'daily') {
 				if (!droppingCards) {
-					await interaction.reply({ content: 'No dailies are available to claim. Check again when there\'s an event!', ephemeral: true });
+					await interaction.reply({ content: 'No dailies are available to claim. Check again when there\'s an event!', flags: MessageFlags.Ephemeral });
 					return;
 				}
 				const today = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }).split(' ')[0].slice(0, -1).split('/');
@@ -116,22 +116,22 @@ module.exports = {
 					await botherChannel.send(await postCard({ set: set, name: name, desc: desc, content: `<@${interaction.user.id}>`, title: `Here's your drop for the day, \`${interaction.user.username}\`!`, spoiler: spoiler }));
 					await handlePlayerReward(interaction.user.id, set, name);
 					await fetchSQL('UPDATE `player` SET `last_daily` = ? WHERE `snowflake` = ?', [`${year}-${month}-${day}`, interaction.user.id]);
-					await interaction.reply({ content: 'You picked up your daily!', ephemeral: true });
+					await interaction.reply({ content: 'You picked up your daily!', flags: MessageFlags.Ephemeral });
 				} else if (!isEligibleDay) {
-					await interaction.reply({ content: 'Your next daily is available tomorrow!', ephemeral: true });
+					await interaction.reply({ content: 'Your next daily is available tomorrow!', flags: MessageFlags.Ephemeral });
 				} else {
-					await interaction.reply({ content: `You've already obtained a random card drop within the last \`${dailyBlocker / 60 / 60 / 1000}\` hours!`, ephemeral: true });
+					await interaction.reply({ content: `You've already obtained a random card drop within the last \`${dailyBlocker / 60 / 60 / 1000}\` hours!`, flags: MessageFlags.Ephemeral });
 				}
 
 			} else if (interaction.options.getSubcommand() === 'binder') {
 				let target = interaction.options.getUser('target');
 				if (target === null) target = interaction.user;
 				if (target.bot) {
-					await interaction.reply({ content: 'Bots don\'t trade cards! There\'s nothing here for you.', ephemeral: true });
+					await interaction.reply({ content: 'Bots don\'t trade cards! There\'s nothing here for you.', flags: MessageFlags.Ephemeral });
 				} else {
 					const queryResult = await fetchSQL('SELECT `binder` FROM `player` WHERE `snowflake` = ?', [target.id]);
 					if (!queryResult.length) {
-						await interaction.reply({ content: 'You don\'t have a binder yet! Please wait while I set one up for you.', ephemeral: true });
+						await interaction.reply({ content: 'You don\'t have a binder yet! Please wait while I set one up for you.', flags: MessageFlags.Ephemeral });
 						await pushBinder(target.id);
 					} else {
 						const isBinderViewable = await fetchSQL('SELECT `binderViewable` FROM `player` WHERE `snowflake` = ?', [target.id]);
@@ -142,9 +142,9 @@ module.exports = {
 							const embed = getDefaultEmbed()
 								.setTitle(`\`${target.username}\`'s Binder Contents`)
 								.setDescription(summary);
-							await interaction.reply({ embeds: [embed], ephemeral: true });
+							await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
 						} else {
-							await interaction.reply({ content: 'Sorry, this user\'s binder is private!', ephemeral: true });
+							await interaction.reply({ content: 'Sorry, this user\'s binder is private!', flags: MessageFlags.Ephemeral });
 						}
 					}
 				}
@@ -153,11 +153,11 @@ module.exports = {
 				if (value === undefined) {
 					const visibility = await fetchSQL('SELECT `binderViewable` FROM `player` WHERE `snowflake` = ?', [interaction.user.id]);
 					const message = `Your binder is currently ${visibility[0].binderViewable ? '' : 'not '}visible to others.`;
-					await interaction.reply({ content: message, ephemeral: true });
+					await interaction.reply({ content: message, flags: MessageFlags.Ephemeral });
 				} else {
 					await fetchSQL('UPDATE `player` SET `binderViewable` = ? WHERE `snowflake` = ?', [+value, interaction.user.id]);
 					const message = `Your binder visibility has been set to ${value ? 'on' : 'off'}`;
-					await interaction.reply({ content: message, ephemeral: true });
+					await interaction.reply({ content: message, flags: MessageFlags.Ephemeral });
 				}
 				// Dev wants to view a particular card
 			} else if (interaction.options.getSubcommand() === 'card') {
@@ -175,7 +175,7 @@ module.exports = {
 				// Player wants to trade with someone else
 			} else if (interaction.options.getSubcommand() === 'trade') {
 				if (!tradingOn) {
-					await interaction.reply({ content: 'No event is being hosted currently. Try again another time!', ephemeral: true });
+					await interaction.reply({ content: 'No event is being hosted currently. Try again another time!', flags: MessageFlags.Ephemeral });
 					return;
 				}
 				await interaction.deferReply();
@@ -183,22 +183,22 @@ module.exports = {
 				const initiatingPlayer = interaction.user;
 				// No trades with bots
 				if (targetPlayer.bot) {
-					await interaction.editReply({ content: 'You can\'t trade with bots!', ephemeral: true });
+					await interaction.editReply({ content: 'You can\'t trade with bots!', flags: MessageFlags.Ephemeral });
 					return;
 				}
 				if (targetPlayer.id === initiatingPlayer.id) {
-					await interaction.editReply({ content: 'You can\'t trade with yourself!', ephemeral: true });
+					await interaction.editReply({ content: 'You can\'t trade with yourself!', flags: MessageFlags.Ephemeral });
 					return;
 				}
 
 				// Block new sessions where either participant is busy
 				const sessionInfo = checkSessionConflict(initiatingPlayer, targetPlayer);
 				if (sessionInfo === SessionStatus.InitiatorBusy) {
-					await interaction.editReply({ content: 'You\'re already busy with another trade!', ephemeral: true });
+					await interaction.editReply({ content: 'You\'re already busy with another trade!', flags: MessageFlags.Ephemeral });
 					return;
 				}
 				if (sessionInfo === SessionStatus.TargetBusy) {
-					await interaction.editReply({ content: 'Your target trade partner is currently busy trading with someone else!', ephemeral: true });
+					await interaction.editReply({ content: 'Your target trade partner is currently busy trading with someone else!', flags: MessageFlags.Ephemeral });
 					return;
 				}
 				// Collect information
@@ -350,7 +350,7 @@ module.exports = {
 					// Most interactions are available only to the calling user
 					if (buttonInteraction.user.id === initiatingPlayer.id) {
 						if (!cardTradeSessions[bSession]) {
-						// TODO test if this message actually plays after a reboot
+							// TODO test if this message actually plays after a reboot
 							response.edit({ embeds: [], components: [], content: 'Sorry, this trade request went stale and is no longer valid.' });
 							return;
 						}
@@ -369,12 +369,12 @@ module.exports = {
 									await buttonInteraction.update({ components: [setSelectRow, yourCardSelectRow, yourCardSelectArrowRow, theirCardSelectRow, theirCardSelectArrowRow] });
 									return;
 								} else {
-									await buttonInteraction.reply({ content: 'Be patient! It\'s their turn to consider the offer.', ephemeral: true });
+									await buttonInteraction.reply({ content: 'Be patient! It\'s their turn to consider the offer.', flags: MessageFlags.Ephemeral });
 									return;
 								}
 							}
 						} else {
-						// TODO Functionalize this?
+							// TODO Functionalize this?
 							const bDecider = bTrader === 'initiator';
 							const bInitiator = cardTradeSessions[bSession]['initiator'];
 							const bTarget = cardTradeSessions[bSession]['target'];
@@ -440,12 +440,12 @@ module.exports = {
 								await buttonInteraction.update({ embeds: [], components: [], content: 'Deal sealed! Enjoy your cards!' });
 								return;
 							} else {
-								await buttonInteraction.reply({ content: 'Be patient! The offer\'s still being set up.', ephemeral: true });
+								await buttonInteraction.reply({ content: 'Be patient! The offer\'s still being set up.', flags: MessageFlags.Ephemeral });
 								return;
 							}
 						}
 					} else {
-						await buttonInteraction.reply({ content: 'Those buttons aren\'t for you! Shoo, shoo!', ephemeral: true });
+						await buttonInteraction.reply({ content: 'Those buttons aren\'t for you! Shoo, shoo!', flags: MessageFlags.Ephemeral });
 						return;
 					}
 				});
@@ -457,7 +457,7 @@ module.exports = {
 					delete cardTradeSessions[sessionID];
 				});
 
-				const selectCollector = response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time:tradeExpiryTime });
+				const selectCollector = response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: tradeExpiryTime });
 				selectCollector.on('collect', async selectInteraction => {
 					if (selectInteraction.user.id === initiatingPlayer.id) {
 						await selectInteraction.deferUpdate();
@@ -515,7 +515,7 @@ module.exports = {
 						} else {
 							const sSet = cardTradeSessions[sSession]['setFocus'];
 							const sDecider = sTrader === 'initiator';
-							
+
 							const sInitiator = cardTradeSessions[sSession]['initiator'];
 							const sTarget = cardTradeSessions[sSession]['target'];
 							const sChoice = selectInteraction.values[0];
@@ -550,7 +550,7 @@ module.exports = {
 							await selectInteraction.editReply({ components: [setSelectRow, yourCardSelectRow, yourCardSelectArrowRow, theirCardSelectRow, theirCardSelectArrowRow] });
 						}
 					} else {
-						await selectInteraction.reply({ content: 'Those dropdowns aren\'t for you! Shoo, shoo!', ephemeral: true });
+						await selectInteraction.reply({ content: 'Those dropdowns aren\'t for you! Shoo, shoo!', flags: MessageFlags.Ephemeral });
 					}
 				});
 			}

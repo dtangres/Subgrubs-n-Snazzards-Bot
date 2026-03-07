@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder } = require('discord.js');
+const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder, MessageFlags } = require('discord.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('anon-note')
@@ -34,10 +34,10 @@ module.exports = {
 			console.log(e.message);
 			if (e.rawError.message === 'Unknown Member') {
 				console.log('Attempt from outside to use anon-note');
-				await interaction.reply({ content: 'Sorry, you don\'t have permission to use this command.', ephemeral: true });
+				await interaction.reply({ content: 'Sorry, you don\'t have permission to use this command.', flags: MessageFlags.Ephemeral });
 			} else {
 				console.log('Error while showing anon-note modal: ', e);
-				await interaction.reply({ content: 'Sorry, something went wrong. If this error persists, ping a developer.', ephemeral: true });
+				await interaction.reply({ content: 'Sorry, something went wrong. If this error persists, ping a developer.', flags: MessageFlags.Ephemeral });
 			}
 		}
 	},

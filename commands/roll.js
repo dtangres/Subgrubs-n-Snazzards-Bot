@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder } = require('discord.js');
+const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder, MessageFlags } = require('discord.js');
 const { getDefaultEmbed } = require('../utils/stringy');
 const { formatRoll, modStr, getRollColor, formatRawRoll, getRollResultName } = require('../utils/dice');
 const { colorDict } = require('../utils/info');
@@ -83,11 +83,11 @@ module.exports = {
 				const size = +m[2];
 				const keeps = m[3] ? (m[3] === 'h' ? +m[4] : -m[4]) : 0;
 				if (Math.abs(keeps) > amt) {
-					await interaction.reply({ content: `I'm sorry! I couldn't parse the roll \`${raw}\` because you're trying to keep more dice than you're rolling. Please double-check your spelling and try again.`, ephemeral: true });
+					await interaction.reply({ content: `I'm sorry! I couldn't parse the roll \`${raw}\` because you're trying to keep more dice than you're rolling. Please double-check your spelling and try again.`, flags: MessageFlags.Ephemeral });
 					return;
 				}
 				if (m[3] && keeps === 0) {
-					await interaction.reply({ content: '...Why are you keeping zero dice? Please try again.', ephemeral: true });
+					await interaction.reply({ content: '...Why are you keeping zero dice? Please try again.', flags: MessageFlags.Ephemeral });
 					return;
 				}
 				const mod = m[5] ? eval(`${m[5]}${m[6]}`) : 0;
@@ -102,7 +102,7 @@ module.exports = {
 					.setColor(colorDict.GREY);
 				await interaction.reply({ embeds: [embed] });
 			} else {
-				await interaction.reply({ content: `I'm sorry! I couldn't parse the roll \`${raw}\`. Please double-check your spelling and try again.`, ephemeral: true });
+				await interaction.reply({ content: `I'm sorry! I couldn't parse the roll \`${raw}\`. Please double-check your spelling and try again.`, flags: MessageFlags.Ephemeral });
 			}
 		} else {
 			const dice = interaction.options.getInteger('dice') || 8;

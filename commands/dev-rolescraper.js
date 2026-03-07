@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const { fetchSQL } = require('../utils/db');
 
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
 		const roleUsers = await getRoleUsers(targetRole);
 		// Quit out if role user list is empty
 		if (roleUsers.length === 0) {
-			await interaction.reply({ content: `Nobody has the role '${targetRole.name}'.`, ephemeral: true });
+			await interaction.reply({ content: `Nobody has the role '${targetRole.name}'.`, flags: MessageFlags.Ephemeral });
 			return;
 		}
 		// Check if role exists in the database
@@ -42,7 +42,7 @@ module.exports = {
 				await fetchSQL(query, [updatedAchievements, snowflake]);
 			}
 		}
-		await interaction.reply({ content: `${nonUpdatedUsers.length} rows updated; interaction complete.\n<@&${targetRole.id}> has been logged.\nPlease wait a minute or so before calling this command again to avoid rate-limiting.`, ephemeral: true });
+		await interaction.reply({ content: `${nonUpdatedUsers.length} rows updated; interaction complete.\n<@&${targetRole.id}> has been logged.\nPlease wait a minute or so before calling this command again to avoid rate-limiting.`, flags: MessageFlags.Ephemeral });
 		return;
 	},
 };

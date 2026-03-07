@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder } = require('discord.js');
+const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder, MessageFlags } = require('discord.js');
 const { fetchSQL } = require('../utils/db');
 const { titleCase } = require('../utils/stringy');
 const { starterTypes } = require('../utils/info');
@@ -28,7 +28,7 @@ module.exports = {
 		let query = 'SELECT * FROM `starter` WHERE `snowflake` = ? AND `name` = ?';
 		let result = await fetchSQL(query, [user, name]);
 		if (!result.length && op !== 'add') {
-			await interaction.reply({ content: `Sorry, there doesn't seem to be anything in your name for '${name}'. Check your spelling and try again.`, ephemeral: true });
+			await interaction.reply({ content: `Sorry, there doesn't seem to be anything in your name for '${name}'. Check your spelling and try again.`, flags: MessageFlags.Ephemeral });
 		} else if (['add', 'edit', 'remove'].indexOf(op) >= 0) {
 			const idTemplate = `starter_${op}_${user}_${name}`;
 			const modal = new ModalBuilder()
@@ -39,7 +39,7 @@ module.exports = {
 					query = 'SELECT `content` FROM `starter` WHERE `snowflake` = ? AND `name` = ?';
 					result = await fetchSQL(query, [user, name]);
 					if (result.length) {
-						await interaction.reply({ content: `It seems you already have the alias '${name}'! Use \`/starter edit ${name}\` to change these messages instead.`, ephemeral: true });
+						await interaction.reply({ content: `It seems you already have the alias '${name}'! Use \`/starter edit ${name}\` to change these messages instead.`, flags: MessageFlags.Ephemeral });
 						return;
 					}
 				}
@@ -81,7 +81,7 @@ module.exports = {
 		} else {
 			query = 'SELECT `content` FROM `starter` WHERE `snowflake` = ? AND `name` = ? AND `type` = ?';
 			result = await fetchSQL(query, [user, name, op]);
-			await interaction.reply({ content: `\`\`\`\n${result[0].content}\n\`\`\``, ephemeral: true });
+			await interaction.reply({ content: `\`\`\`\n${result[0].content}\n\`\`\``, flags: MessageFlags.Ephemeral });
 		}
 	},
 };
