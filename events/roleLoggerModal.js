@@ -11,7 +11,7 @@ module.exports = {
 			const [roleID] = details;
 			const updatedTitle = interaction.fields.getTextInputValue(`roleLoggerModal_title_${roleID}`);
 			const updatedNotes = interaction.fields.getTextInputValue(`roleLoggerModal_notes_${roleID}`);
-			const updatedCategory = interaction.fields.getTextInputValue(`roleLoggerModal_category_${roleID}`);
+			const updatedCategory = interaction.fields.getStringSelectValues(`roleLoggerModal_category_${roleID}`);
 			let query = 'SELECT * FROM `achievement` WHERE `id` = ?';
 			const queryResult = await fetchSQL(query, [roleID]);
 			if (queryResult.length) {
