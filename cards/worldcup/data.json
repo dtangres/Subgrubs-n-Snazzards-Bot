@@ -20,7 +20,9 @@
 			"peistchroi",
 			"megamuc mor",
 			"dreadwing eclipsion",
-			"nightsteel terranought"
+			"nightsteel terranought",
+			"sncfcargot",
+			"carnotaureau"
 		],
 		"drop_table": [
 			"loamtrench wailer",
@@ -40,7 +42,9 @@
 			"peistchroi",
 			"megamuc mor",
 			"dreadwing eclipsion",
-			"nightsteel terranought"
+			"nightsteel terranought",
+			"sncfcargot",
+			"carnotaureau"
 		],
 		"cards": {
 			"loamtrench wailer": {
@@ -142,7 +146,7 @@
 			"lightning skyterror": {
 				"card_name": "Lightning Skyterror",
 				"art_path": "lightning skyterror.png",
-				"description": "🎨 Art by **Sh0rt**",
+				"description": "🎨 Art by **Ozone**",
 				"card_border_color": "hsl(52, 98%, 61%)",
 				"bg_grd_start": "hsl(244, 11%, 45%)",
 				"bg_grd_end": "hsl(244, 11%, 35%)",
@@ -158,7 +162,7 @@
 			"tidal crushwings": {
 				"card_name": "Tidal Crushwings",
 				"art_path": "tidal crushwings.png",
-				"description": "🎨 Art by **Sh0rt**",
+				"description": "🎨 Art by **Ozone**",
 				"card_border_color": "hsl(169, 96%, 70%)",
 				"bg_grd_start": "hsl(195, 32%, 21%)",
 				"bg_grd_end": "hsl(195, 32%, 16%)",
@@ -329,6 +333,38 @@
 				"art_scale": 0.3,
 				"text_color": "hsl(0, 100%, 100%)",
 				"card_art_border_color": "hsl(224, 13%, 67%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"sncfcargot": {
+				"card_name": "SNCFcargot",
+				"art_path": "SNCFcargot.png",
+				"description": "🎨 Art by **Ozone**",
+				"card_border_color": "hsl(98, 48%, 82%)",
+				"bg_grd_start": "hsl(98, 48%, 82%)",
+				"bg_grd_end": "hsl(98, 48%, 62%)",
+				"bg_hex_start": "hsl(127, 33%, 32%)",
+				"bg_hex_end": "hsl(127, 33%, 22%)",
+				"art_offset_x": 0,
+				"art_offset_y": 0,
+				"art_scale": 0.15,
+				"text_color": "hsl(0, 100%, 100%)",
+				"card_art_border_color": "hsl(98, 48%, 82%)",
+				"drop_shadow_color": "hsl(0, 0%, 0%)"
+			},
+			"carnotaureau": {
+				"card_name": "Le Carnotaureau",
+				"art_path": "Le Carnotaureau.png",
+				"description": "🎨 Art by **Ozone**",
+				"card_border_color": "hsl(320, 38%, 6%)",
+				"bg_grd_start": "hsl(320, 38%, 6%)",
+				"bg_grd_end": "hsl(320, 38%, 2%)",
+				"bg_hex_start": "hsl(1, 79%, 46%)",
+				"bg_hex_end": "hsl(1, 79%, 26%)",
+				"art_offset_x": -100,
+				"art_offset_y": 0,
+				"art_scale": 0.18,
+				"text_color": "hsl(0, 100%, 100%)",
+				"card_art_border_color": "hsl(320, 38%, 6%)",
 				"drop_shadow_color": "hsl(0, 0%, 0%)"
 			}
 		}
