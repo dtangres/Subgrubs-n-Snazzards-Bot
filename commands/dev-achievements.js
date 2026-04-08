@@ -176,27 +176,16 @@ module.exports = {
 			const targetRole = interaction.options.getRole('role');
 			// Fetch role users
 			const roleUsers = guild.roles.cache.get(targetRole.id).members.map(m => m.user.id);
-			console.log(roleUsers);
 			// Quit out if role user list is empty
 			if (roleUsers.length === 0) {
 				await interaction.reply({ content: `Nobody has the role '${targetRole.name}'.`, flags: MessageFlags.Ephemeral });
 				return;
 			}
-			// Select all IDs which do NOT have entries in the player database right now
-			let query = 'SELECT `snowflake` FROM `player`';
-			let queryResult = (await fetchSQL(query, [])).map(x => x['snowflake']);
-			const missingUsers = new Set(roleUsers).difference(new Set(queryResult));
-			console.log(missingUsers);
-			// Add missing entries
-			if (missingUsers.size > 0) {
-				console.log('Adding missing users...');
-				query = `INSERT INTO \`player\` (\`snowflake\`) VALUES ${[...missingUsers].map(() => '(?)').join(', ')}`;
-				console.log(query);
-				await fetchSQL(query, [...missingUsers]);
-			}
+			// Add any users who aren't in the player database
+			await addNewUsers(roleUsers);
 			// Check if role achievement exists in the database
-			query = 'SELECT `title`, `notes` FROM `achievement` WHERE `id` = ?';
-			queryResult = await fetchSQL(query, [targetRole.id]);
+			let query = 'SELECT `title`, `notes` FROM `achievement` WHERE `id` = ?';
+			const queryResult = await fetchSQL(query, [targetRole.id]);
 			// If it doesn't, warn caller and return
 			if (queryResult.length === 0) {
 				await interaction.reply({
@@ -236,26 +225,16 @@ module.exports = {
 			const targetRole = interaction.options.getRole('role');
 			// Fetch role users
 			const roleUsers = guild.roles.cache.get(targetRole.id).members.map(m => m.user.id);
-			console.log(roleUsers);
 			// Quit out if role user list is empty
 			if (roleUsers.length === 0) {
 				await interaction.reply({ content: `Nobody has the role '${targetRole.name}'.`, flags: MessageFlags.Ephemeral });
 				return;
 			}
-			// Select all IDs which do NOT have entries in the player database right now
-			let query = 'SELECT `snowflake` FROM `player`';
-			let result = (await fetchSQL(query, [])).map(x => x['snowflake']);
-			console.log(result.length);
-			const missingUsers = new Set(roleUsers).difference(new Set(result));
-			console.log(missingUsers);
-			// Add missing entries
-			if (missingUsers.size > 0) {
-				query = `INSERT INTO \`player\` (\`snowflake\`) VALUES ${[...missingUsers].map(() => '(?)').join(', ')}`;
-				await fetchSQL(query, [...missingUsers]);
-			}
+			// Add any users who aren't in the player database
+			await addNewUsers(roleUsers);
 			// Check if role exists in the database
-			query = 'SELECT `title`, `notes` FROM `achievement` WHERE `id` = ?';
-			result = (await fetchSQL(query, [targetRole.id]))[0];
+			const query = 'SELECT `title`, `notes` FROM `achievement` WHERE `id` = ?';
+			const result = (await fetchSQL(query, [targetRole.id]))[0];
 
 			// If so, populate modal values with existing flavor/title text
 			const modal = new ModalBuilder()
@@ -314,3 +293,15 @@ module.exports = {
 		}
 	},
 };
+
+async function addNewUsers(roleUsers) {
+	// Select all IDs which do NOT have entries in the player database right now
+	let query = 'SELECT `snowflake` FROM `player`';
+	const result = (await fetchSQL(query, [])).map(x => x['snowflake']);
+	const missingUsers = new Set(roleUsers).difference(new Set(result));
+	// Add missing entries
+	if (missingUsers.size > 0) {
+		query = `INSERT INTO \`player\` (\`snowflake\`) VALUES ${[...missingUsers].map(() => '(?)').join(', ')}`;
+		await fetchSQL(query, [...missingUsers]);
+	}
+}
