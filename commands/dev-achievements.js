@@ -210,7 +210,7 @@ module.exports = {
 			query = 'UPDATE `player` SET `achievements` = CONCAT_WS(" ", `achievements`, ?) WHERE `snowflake` IN ? ';
 			await fetchSQL(query, [targetRole.id, [nonUpdatedUsers.map(x => x.snowflake)]]);
 			await interaction.reply({
-				content: `${updatedUsersLength} users updated with achievement '${queryResult[0].title}' (Total users: ${totalUsers}).${courtesyRateLimitWarning}`,
+				content: `${nonUpdatedUsers.length} users updated with achievement '${queryResult[0].title}' (Total users: ${totalUsers}).${courtesyRateLimitWarning}`,
 				flags: MessageFlags.Ephemeral,
 			});
 			return;
