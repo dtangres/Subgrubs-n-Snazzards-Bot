@@ -175,15 +175,28 @@ module.exports = {
 			// Fetch specific role
 			const targetRole = interaction.options.getRole('role');
 			// Fetch role users
-			const roleUsers = await getRoleUsers(targetRole);
+			const roleUsers = guild.roles.cache.get(targetRole.id).members.map(m => m.user.id);
+			console.log(roleUsers);
 			// Quit out if role user list is empty
 			if (roleUsers.length === 0) {
 				await interaction.reply({ content: `Nobody has the role '${targetRole.name}'.`, flags: MessageFlags.Ephemeral });
 				return;
 			}
+			// Select all IDs which do NOT have entries in the player database right now
+			let query = 'SELECT `snowflake` FROM `player`';
+			let queryResult = (await fetchSQL(query, [])).map(x => x['snowflake']);
+			const missingUsers = new Set(roleUsers).difference(new Set(queryResult));
+			console.log(missingUsers);
+			// Add missing entries
+			if (missingUsers.size > 0) {
+				console.log('Adding missing users...');
+				query = `INSERT INTO \`player\` (\`snowflake\`) VALUES ${[...missingUsers].map(() => '(?)').join(', ')}`;
+				console.log(query);
+				await fetchSQL(query, [...missingUsers]);
+			}
 			// Check if role achievement exists in the database
-			let query = 'SELECT `title`, `notes` FROM `achievement` WHERE `id` = ?';
-			const queryResult = await fetchSQL(query, [targetRole.id]);
+			query = 'SELECT `title`, `notes` FROM `achievement` WHERE `id` = ?';
+			queryResult = await fetchSQL(query, [targetRole.id]);
 			// If it doesn't, warn caller and return
 			if (queryResult.length === 0) {
 				await interaction.reply({
@@ -222,23 +235,35 @@ module.exports = {
 			// Fetch specific role
 			const targetRole = interaction.options.getRole('role');
 			// Fetch role users
-			const roleUsers = await getRoleUsers(targetRole);
+			const roleUsers = guild.roles.cache.get(targetRole.id).members.map(m => m.user.id);
+			console.log(roleUsers);
 			// Quit out if role user list is empty
 			if (roleUsers.length === 0) {
 				await interaction.reply({ content: `Nobody has the role '${targetRole.name}'.`, flags: MessageFlags.Ephemeral });
 				return;
 			}
+			// Select all IDs which do NOT have entries in the player database right now
+			let query = 'SELECT `snowflake` FROM `player`';
+			let result = (await fetchSQL(query, [])).map(x => x['snowflake']);
+			console.log(result.length);
+			const missingUsers = new Set(roleUsers).difference(new Set(result));
+			console.log(missingUsers);
+			// Add missing entries
+			if (missingUsers.size > 0) {
+				query = `INSERT INTO \`player\` (\`snowflake\`) VALUES ${[...missingUsers].map(() => '(?)').join(', ')}`;
+				await fetchSQL(query, [...missingUsers]);
+			}
 			// Check if role exists in the database
-			const query = 'SELECT `title`, `notes` FROM `achievement` WHERE `id` = ?';
-			const result = (await fetchSQL(query, [targetRole.id]))[0];
+			query = 'SELECT `title`, `notes` FROM `achievement` WHERE `id` = ?';
+			result = (await fetchSQL(query, [targetRole.id]))[0];
 
 			// If so, populate modal values with existing flavor/title text
 			const modal = new ModalBuilder()
-				.setCustomId(`roleLoggerModal_${targetRole.id}`)
-				.setTitle(cutoffWithEllipsis(`Update Role Details: ${targetRole.name}`, 45));
+				.setCustomId(`roleLoggerModal_${targetRole.id} `)
+				.setTitle(cutoffWithEllipsis(`Update Role Details: ${targetRole.name} `, 45));
 
 			const titleBox = new TextInputBuilder()
-				.setCustomId(`roleLoggerModal_title_${targetRole.id}`)
+				.setCustomId(`roleLoggerModal_title_${targetRole.id} `)
 				.setPlaceholder(result === undefined ? 'Cool Dude' : result.title)
 				.setValue(result === undefined ? targetRole.name : result.title)
 				.setStyle(TextInputStyle.Short)
@@ -250,7 +275,7 @@ module.exports = {
 				.setTextInputComponent(titleBox);
 
 			const categoryMenu = new StringSelectMenuBuilder()
-				.setCustomId(`roleLoggerModal_category_${targetRole.id}`)
+				.setCustomId(`roleLoggerModal_category_${targetRole.id} `)
 				.setPlaceholder('Select Category')
 				.addOptions(
 					new StringSelectMenuOptionBuilder()
@@ -271,7 +296,7 @@ module.exports = {
 				.setStringSelectMenuComponent(categoryMenu);
 
 			const notesBox = new TextInputBuilder()
-				.setCustomId(`roleLoggerModal_notes_${targetRole.id}`)
+				.setCustomId(`roleLoggerModal_notes_${targetRole.id} `)
 				.setPlaceholder(result === undefined ? 'You\'re a cool dude!' : result.notes)
 				.setValue(result === undefined ? '' : result.notes)
 				.setStyle(TextInputStyle.Paragraph)
@@ -289,9 +314,3 @@ module.exports = {
 		}
 	},
 };
-
-async function getRoleUsers(role) {
-	return role.members.map(m => {
-		return m.user.id;
-	});
-}
