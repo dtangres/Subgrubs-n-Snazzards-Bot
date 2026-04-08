@@ -207,7 +207,7 @@ module.exports = {
 			query = 'SELECT `snowflake`, `achievements` FROM `player` WHERE (`achievements` LIKE ?) AND `snowflake` IN (?)';
 			const updatedUsersLength = (await fetchSQL(query, [`%${targetRole.id}%`, roleUsers])).length;
 			const totalUsers = updatedUsersLength + nonUpdatedUsers.length;
-			query = 'UPDATE `player` SET `achievements` = CONCAT(`achievements`, ?) WHERE `snowflake` IN ?';
+			query = 'UPDATE `player` SET `achievements` = CONCAT_WS(" ", `achievements`, ?) WHERE `snowflake` IN ? ';
 			await fetchSQL(query, [targetRole.id, [nonUpdatedUsers.map(x => x.snowflake)]]);
 			await interaction.reply({
 				content: `${updatedUsersLength} users updated with achievement '${queryResult[0].title}' (Total users: ${totalUsers}).${courtesyRateLimitWarning}`,
