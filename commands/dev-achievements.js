@@ -176,13 +176,14 @@ module.exports = {
 			const targetRole = interaction.options.getRole('role');
 			// Fetch role users
 			const roleUsers = guild.roles.cache.get(targetRole.id).members.map(m => m.user.id);
+			console.log(roleUsers);
 			// Quit out if role user list is empty
 			if (roleUsers.length === 0) {
 				await interaction.reply({ content: `Nobody has the role '${targetRole.name}'.`, flags: MessageFlags.Ephemeral });
 				return;
 			}
-			// Add any users who aren't in the player database
 			await addNewUsers(roleUsers);
+			// Add any users who aren't in the player database
 			// Check if role achievement exists in the database
 			let query = 'SELECT `title`, `notes` FROM `achievement` WHERE `id` = ?';
 			const queryResult = await fetchSQL(query, [targetRole.id]);
@@ -225,6 +226,7 @@ module.exports = {
 			const targetRole = interaction.options.getRole('role');
 			// Fetch role users
 			const roleUsers = guild.roles.cache.get(targetRole.id).members.map(m => m.user.id);
+			console.log(roleUsers);
 			// Quit out if role user list is empty
 			if (roleUsers.length === 0) {
 				await interaction.reply({ content: `Nobody has the role '${targetRole.name}'.`, flags: MessageFlags.Ephemeral });
@@ -279,7 +281,7 @@ module.exports = {
 				.setPlaceholder(result === undefined ? 'You\'re a cool dude!' : result.notes)
 				.setValue(result === undefined ? '' : result.notes)
 				.setStyle(TextInputStyle.Paragraph)
-				.setMaxLength(64)
+				.setMaxLength(2000)
 				.setRequired(true);
 
 			const notesLabel = new LabelBuilder()
