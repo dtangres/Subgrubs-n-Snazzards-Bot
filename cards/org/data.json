@@ -1,0 +1,84 @@
+{
+    "style": "full",
+    "set_name": "ORGs",
+    "card_info": {
+        "card_names": [
+            "CIS",
+            "Eradificers",
+            "HET",
+            "ORG",
+            "Orphaners",
+            "RAD",
+            "Sindicators",
+            "TIT"
+        ],
+        "drop_table": [
+            "CIS",
+            "Eradificers",
+            "HET",
+            "ORG",
+            "Orphaners",
+            "RAD",
+            "Sindicators",
+            "TIT"
+        ],
+        "cards": {
+            "CIS": {
+                "card_name": "CIS",
+                "art_path": "CIS.png",
+                "description": "🪪 **The Stargazer**\n🎨 Art by `Honey`",
+                "box_text": "Commissary of\nInterplanetary Security",
+                "info_border_color": "#04ff81"
+            },
+            "Eradificers": {
+                "card_name": "Eradificers",
+                "art_path": "Eradificers.png",
+                "description": "🪪 **The Steamwail**\n🎨 Art by `Yoop`",
+                "box_text": "Eradificers",
+                "info_border_color": "#76c8f7"
+            },
+            "HET": {
+                "card_name": "HET",
+                "art_path": "HET.png",
+                "description": "🪪 **The Overseer**\n🎨 Art by `Honey`",
+                "box_text": "Heresy Eradication Taskforce",
+                "info_border_color": "#007fff"
+            },
+            "ORG": {
+                "card_name": "ORG",
+                "art_path": "ORG.png",
+                "description": "🪪 **D8tahell Arachnid**\n🎨 Art by `Honey`",
+                "box_text": "Order of\nReconnaissance Galactica",
+                "info_border_color": "#007fff"
+            },
+            "Orphaners": {
+                "card_name": "Orphaners",
+                "art_path": "Orphaners.png",
+                "description": "🪪 **Orphaner Wyrmclaw**\n🎨 Art by `Honey`",
+                "box_text": "Orphaners",
+                "info_border_color": "#ff00fd"
+            },
+            "RAD": {
+                "card_name": "RAD",
+                "art_path": "RAD.png",
+                "description": "🪪 **The Overseer**\n🎨 Art by `Yoop`",
+                "box_text": "Radiation Annihilation Division",
+                "info_border_color": "#e3ff74"
+            },
+            "Sindicators": {
+                "card_name": "Sindicators",
+                "art_path": "Sindicators.png",
+                "description": "🪪 **Muffled Murderess**\n🎨 Art by `Yoop`",
+                "box_text": "Heresy Eradication Taskforce",
+                "info_border_color": "#b867ff"
+            },
+            "TIT": {
+                "card_name": "TIT",
+                "art_path": "TIT.png",
+                "description": "🪪 **The Bookmaker**\n🎨 Art by `Honey`",
+                "box_text": "Trolls in Teal",
+                "info_border_color": "#00ffff"
+            }
+        }
+    }
+}
