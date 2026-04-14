@@ -2,7 +2,7 @@
 const { SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, MessageFlags } = require('discord.js');
 const { getRandomCard, handlePlayerReward, postCard, fetchBinder, getPrettyBinderSummary, addCard, removeCard, pushBinder, checkSessionConflict, SessionStatus, makeNewBinder, isEmptyBinder, isEmptySet, getCardData, validateBinder } = require('../utils/cards');
 const { parseInt64, toString64, getCurrentTimestamp, clamp, objectToListMap } = require('../utils/math');
-const { cardSetList, currentPool, visibleCardSetList, setTranslate, cardTranslate, tradingOn, droppingCards, cardDropWaitTime, dailyBlocker } = require('../utils/info');
+const { cardSetList, currentPool, visibleCardSetList, setTranslate, cardTranslate, tradingOn, droppingCards, droppingDailies, cardDropWaitTime, dailyBlocker } = require('../utils/info');
 const { getDefaultEmbed } = require('../utils/stringy');
 const { cardTradeSessions, fetchSQL } = require('../utils/db');
 const { easyListItems } = require('../utils/math');
@@ -81,7 +81,7 @@ module.exports = {
 			// Player wants to see their binder contents
 			const cardSet = interaction.options.getString('set');
 			if (interaction.options.getSubcommand() === 'daily') {
-				if (!droppingCards) {
+				if (!droppingCards || !droppingDailies) {
 					await interaction.reply({ content: 'No dailies are available to claim. Check again when there\'s an event!', flags: MessageFlags.Ephemeral });
 					return;
 				}
