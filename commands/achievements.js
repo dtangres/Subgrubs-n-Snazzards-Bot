@@ -50,14 +50,14 @@ module.exports = {
 			}
 
 			// Map IDs to achievements, collect
-			const achievements = queryResult[0].achievements.split(' ');
+			const achievements = queryResult[0].achievements.split(' ').map(x => x.trim());
 			query = 'SELECT `id`, `title`, `category` FROM `achievement`';
 
 			// Populate achievements listing
 			queryResult = await fetchSQL(query);
 			const achievementMapping = {};
 			queryResult.forEach(
-				i => { achievementMapping[i.id] = { title: i.title, category: i.category }; },
+				i => { achievementMapping[i.id.trim()] = { title: i.title, category: i.category }; },
 			);
 			const achievementGroups = {};
 			console.log(achievementMapping);
