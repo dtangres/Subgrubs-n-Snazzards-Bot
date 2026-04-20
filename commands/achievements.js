@@ -55,6 +55,8 @@ module.exports = {
 
 			// Populate achievements listing
 			queryResult = await fetchSQL(query);
+			// Pesky whitespace
+			queryResult = queryResult.filter(x => x.id);
 			const achievementMapping = {};
 			queryResult.forEach(
 				i => { achievementMapping[i.id.trim()] = { title: i.title, category: i.category }; },
