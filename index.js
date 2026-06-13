@@ -106,7 +106,7 @@ for (const set of info.cardSetList) {
 console.log('Logging in...');
 client.login(process.env.DISCORD_TOKEN);
 
-// Start role processing jobs
+// Start jobs
 const CronJob = require('cron').CronJob;
 
 // Wriggler removal job
@@ -138,3 +138,21 @@ const wrigglerRemovalJob = new CronJob(
 	},
 );
 wrigglerRemovalJob.start();
+
+// Tidal wave job
+if (info.tidalWave) {
+	const tidalWaveJobTideToggle = new CronJob(
+		info.tidalWaveCron,
+		async function () {
+			// Acquire cycle phase
+			now = Date.now();
+			const timeSinceStart = (now - info.tidalWaveStart) % (2 * days);
+			const message = (timeSinceStart >= (1 * days)) ? info.lowTideMsg : info.highTideMsg;
+			// TODO
+			const payload = { content: `${message}: ${info.tidalWaveStart} => ${now} % ${2 * minutes} = ${timeSinceStart}` };
+			const guild = client.guilds.cache.get(process.env.GUILD_ID);
+			await guild.channels.cache.get(process.env.TIDAL_WAVE_CHANNEL).send(payload);
+		}
+	);
+	tidalWaveJobTideToggle.start();
+}
