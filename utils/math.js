@@ -1,4 +1,8 @@
 const numerics = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ?!';
+const seconds = 1000;
+const minutes = 60 * seconds;
+const hours = 60 * minutes;
+const days = 24 * hours;
 
 /**
  * @desc provides simple number rounding functionality
@@ -40,7 +44,7 @@ function zip(a, b) {
  * const squaredWeights = objectMap({apples: 2, bananas: 4, grapes: 3}, x => x**2);
  */
 function objectMap(object, mapFn) {
-	return Object.keys(object).reduce(function(result, key) {
+	return Object.keys(object).reduce(function (result, key) {
 		result[key] = mapFn(object[key]);
 		return result;
 	}, {});
@@ -55,7 +59,7 @@ function objectMap(object, mapFn) {
  * const squaredWeightsList = objectToListMap({apples: 2, bananas: 4, grapes: 3}, x => x**2);
  */
 function objectToListMap(object, mapFn) {
-	return Object.keys(object).reduce(function(result, key) {
+	return Object.keys(object).reduce(function (result, key) {
 		result.push(mapFn(object[key]));
 		return result;
 	}, []);
@@ -155,4 +159,8 @@ module.exports = {
 	sum: sum,
 	any: any,
 	all: all,
+	seconds: seconds,
+	minutes: minutes,
+	hours: hours,
+	days: days,
 };

@@ -7,6 +7,7 @@ const db = require('./utils/db');
 const info = require('./utils/info');
 const { getCardData } = require('./utils/cards');
 const { isAllowed } = require('./utils/conditions');
+const { days, minutes } = require('./utils/math');
 
 // Initialize client
 console.log('Initializing client...');
@@ -81,14 +82,14 @@ for (const file of eventFiles) {
 db.fetchSQL('SET NAMES \'utf8mb4\'');
 
 console.log('Initializing Troll Call...');
-const now = new Date();
-const minutes = now.getMinutes();
-const seconds = now.getSeconds();
+let now = new Date();
+const _minutes = now.getMinutes();
+const _seconds = now.getSeconds();
 
 db.trollFirstNameDict, db.trollFullNameDict, db.trollTitleDict = db.loadTrollCall();
 
 // Load troll call and other resources
-schedule(`${seconds} ${minutes} * * * *`, function () {
+schedule(`${_seconds} ${_minutes} * * * *`, function () {
 	console.log('---------------------');
 	db.trollFirstNameDict, db.trollFullNameDict, db.trollTitleDict = db.loadTrollCall();
 });
@@ -108,6 +109,7 @@ client.login(process.env.DISCORD_TOKEN);
 // Start role processing jobs
 const CronJob = require('cron').CronJob;
 
+// Wriggler removal job
 const wrigglerRemovalJob = new CronJob(
 	// Check at midnight. Midnight where? Who knows
 	'0 0 * * *',
@@ -125,7 +127,7 @@ const wrigglerRemovalJob = new CronJob(
 				console.log('Checking', m.id);
 				const time = Date.now();
 				// Wrigglers older than thirty days are mature
-				if (time - m.joinedAt > (1000 * 60 * 60 * 24 * 30)) {
+				if (time - m.joinedAt > (30 * days)) {
 					console.log('Found someone! Time to remove the role for', m.id, '!');
 					m.roles.remove(process.env.WRIGGLER_ROLE_ID);
 				}
