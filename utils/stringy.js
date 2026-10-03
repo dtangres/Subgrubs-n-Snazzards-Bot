@@ -16,7 +16,7 @@ function capitalize(str) {
  * @returns the string in title case
  */
 function titleCase(str) {
-	return str.toLowerCase().split(' ').map(function(word) {
+	return str.toLowerCase().split(' ').map(function (word) {
 		return word.replace(word[0], word[0].toUpperCase());
 	}).join(' ');
 }
@@ -29,7 +29,7 @@ function titleCase(str) {
 function camelize(str) {
 	return titleCase(str)
 		.replace(/[^ a-zA-Z0-9]/g, '')
-		.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
+		.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
 			return index === 0 ? word.toLowerCase() : word.toUpperCase();
 		})
 		.replace(/\s+/g, '');
@@ -135,7 +135,7 @@ module.exports = {
 	getExcerpt: getExcerpt,
 	cutoffWithEllipsis: cutoffWithEllipsis,
 	titleCase: titleCase,
-	dictList : dictList,
-	pluralS : pluralS,
-	cleanDiacritics : cleanDiacritics,
+	dictList: dictList,
+	pluralS: pluralS,
+	cleanDiacritics: cleanDiacritics,
 };
