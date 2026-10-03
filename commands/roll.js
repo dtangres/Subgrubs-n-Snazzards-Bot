@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder, MessageFlags } = require('discord.js');
-const { getDefaultEmbed } = require('../utils/stringy');
+const { getDefaultEmbed, cutoffWithEllipsis } = require('../utils/stringy');
 const { formatRoll, modStr, getRollColor, formatRawRoll, getRollResultName } = require('../utils/dice');
 const { colorDict } = require('../utils/info');
 module.exports = {
@@ -38,7 +38,7 @@ module.exports = {
 	category: 'Game Stuff',
 	async execute(interaction) {
 		const raw = interaction.options.getString('raw');
-		const description = interaction.options.getString('description') || 'Roll result';
+		const description = cutoffWithEllipsis(interaction.options.getString('description') || 'Roll result', 250);
 		if (raw) {
 			let m;
 			const lie_regex = /lie/;
