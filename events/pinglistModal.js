@@ -22,7 +22,7 @@ module.exports = {
 		} else if (id.startsWith('pinglist_rename_')) {
 			const details = id.replace('pinglist_rename_', '').split('_');
 			const [name, user, serverID] = details;
-			const newName = interaction.fields.getTextInputValue(`pinglist_rename_newName_${name}_${user}_${serverID}`);
+			const newName = interaction.fields.getTextInputValue(`pinglist_rename_newName_${name}_${user}_${serverID}`).toLowerCase();
 			let query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `serverID` = ?';
 			const queryResult = await fetchSQL(query, [newName, serverID]);
 			if (queryResult.length) {
