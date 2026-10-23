@@ -10,21 +10,26 @@
   "author": "✨Meme Magician✨",
   "license": "ISC",
   "dependencies": {
-    "@napi-rs/canvas": "^0.1.41",
-    "cron": "^3.1.6",
-    "csv": "^6.4.1",
+    "@napi-rs/canvas": "^1.0.13",
+    "cron": "^4.4.0",
+    "csv": "^6.6.4",
     "discord-timestamps": "^0.1.4",
-    "discord.js": "^14.25.1",
-    "dotenv": "^16.0.3",
-    "emoji-regex": "^10.2.1",
-    "google-spreadsheet": "^3.3.0",
+    "discord.js": "^14.27.0",
+    "dotenv": "^18.0.9",
+    "emoji-regex": "^11.0.0",
+    "google-auth-library": "^11.3.1",
+    "google-spreadsheet": "^5.3.0",
     "heapdump": "^0.3.15",
     "minimist": "^1.2.8",
     "mysql": "^2.18.1",
-    "node-cron": "^3.0.2",
+    "node-cron": "^4.6.0",
+    "node-fetch": "^3.3.2",
     "sausage-four": "file:"
   },
   "devDependencies": {
-    "eslint": "^8.31.0"
+    "eslint": "^10.13.0"
+  },
+  "allowScripts": {
+    "heapdump@0.3.15": true
   }
 }
