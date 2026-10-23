@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const { GoogleSpreadsheet } = require('google-spreadsheet');
+const { JWT } = require('google-auth-library');
 const { cleanDiacritics } = require('./stringy');
-const doc = new GoogleSpreadsheet(process.env.TROLL_CALL_DOC_ID);
 
 const trollFullNameDict = {};
 const trollFirstNameDict = {};
@@ -21,6 +21,18 @@ const con = mysql.createPool({
 	user: process.env.SQL_USER,
 	password: process.env.SQL_PW,
 	multipleStatements: false,
+});
+
+
+/**
+ * Troll call sheet connection
+ */
+const serviceAccountAuth = new JWT({
+	email: process.env.EMAIL,
+	key: process.env.PRIVATE_KEY,
+	scopes: [
+		'https://www.googleapis.com/auth/spreadsheets',
+	],
 });
 
 /**
@@ -50,10 +62,7 @@ async function loadTrollCall() {
 	const start = new Date();
 	console.log('Loading Troll Call...');
 	try {
-		await doc.useServiceAccountAuth({
-			client_email: process.env.EMAIL,
-			private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
-		});
+		const doc = new GoogleSpreadsheet(process.env.TROLL_CALL_DOC_ID, serviceAccountAuth);
 		await doc.loadInfo();
 
 		// Alterniabound trolls
