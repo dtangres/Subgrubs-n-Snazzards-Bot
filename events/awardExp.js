@@ -20,10 +20,14 @@ module.exports = {
 		// Don't reward players on cooldown
 		const now = Date.now();
 		const queryResult = await fetchSQL('SELECT `lastExp`, `exp` FROM `player` WHERE `snowflake` = ?', [snowflake]);
+		let lastExpTime = null;
 		if (queryResult.length) {
-			let lastExpTime = parseInt(queryResult[0]['lastExp']);
+			lastExpTime = parseInt(queryResult[0]['lastExp']);
 			lastExpTime = isNaN(lastExpTime) ? 0 : lastExpTime;
 			if (now - lastExpTime < expWaitTime) return;
+		} else {
+			await fetchSQL('INSERT INTO `player` (`snowflake`) VALUES (?)', [snowflake]);
+			lastExpTime = now;
 		}
 
 		// Get level of player
