@@ -30,7 +30,6 @@ module.exports = {
 		const choiceString = interaction.options.getString('choices');
 		const secrecy = interaction.options.getBoolean('secret') ?? false;
 		const pick = interaction.options.getInteger('pick') ?? 1;
-		let choices;
 
 		const displayList = [];
 		const weightedChoices = {};
@@ -38,7 +37,7 @@ module.exports = {
 		let delimiter = null;
 		for (const s in delimiters) {
 			if (choiceString.indexOf(delimiters[s]) !== -1) {
-				delimiter = delimiters[s]
+				delimiter = delimiters[s];
 				break;
 			}
 		}
@@ -49,7 +48,7 @@ module.exports = {
 			return;
 		}
 
-		choices = choiceString.split(delimiter).map(x => x.trim());
+		const choices = choiceString.split(delimiter).map(x => x.trim());
 		for (let i = 0; i < choices.length; i++) {
 			const match = /: ?(\d+)/.exec(choices[i]);
 			if (match) {

@@ -89,7 +89,7 @@ const _seconds = now.getSeconds();
 db.trollFirstNameDict, db.trollFullNameDict, db.trollTitleDict = db.loadTrollCall();
 
 // Load troll call and other resources
-schedule(`${_seconds} ${_minutes} * * * *`, function () {
+schedule(`${_seconds} ${_minutes} * * * *`, function() {
 	console.log('---------------------');
 	db.trollFirstNameDict, db.trollFullNameDict, db.trollTitleDict = db.loadTrollCall();
 });
@@ -113,7 +113,7 @@ const CronJob = require('cron').CronJob;
 const wrigglerRemovalJob = new CronJob(
 	// Check at midnight. Midnight where? Who knows
 	'0 0 * * *',
-	async function () {
+	async function() {
 		try {
 			console.log('Checking for old wrigglers.');
 			const guild = client.guilds.cache.get(process.env.GUILD_ID);
@@ -143,7 +143,7 @@ wrigglerRemovalJob.start();
 if (info.tidalWave) {
 	const tidalWaveJobTideToggle = new CronJob(
 		info.tidalWaveCron,
-		async function () {
+		async function() {
 			// Acquire cycle phase
 			now = Date.now();
 			const timeSinceStart = (now - info.tidalWaveStart) % (2 * days);
@@ -152,7 +152,7 @@ if (info.tidalWave) {
 			const payload = { content: `${message}: ${info.tidalWaveStart} => ${now} % ${2 * minutes} = ${timeSinceStart}` };
 			const guild = client.guilds.cache.get(process.env.GUILD_ID);
 			await guild.channels.cache.get(process.env.TIDAL_WAVE_CHANNEL).send(payload);
-		}
+		},
 	);
 	tidalWaveJobTideToggle.start();
 }

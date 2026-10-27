@@ -1,8 +1,8 @@
 /* eslint-disable capitalized-comments */
 const { SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, MessageFlags } = require('discord.js');
 const { getRandomCard, handlePlayerReward, postCard, fetchBinder, getPrettyBinderSummary, addCard, removeCard, pushBinder, checkSessionConflict, SessionStatus, makeNewBinder, isEmptyBinder, isEmptySet, getCardData, validateBinder } = require('../utils/cards');
-const { parseInt64, toString64, getCurrentTimestamp, clamp, objectToListMap } = require('../utils/math');
-const { cardSetList, currentPool, visibleCardSetList, setTranslate, cardTranslate, tradingOn, droppingCards, droppingDailies, cardDropWaitTime, dailyBlocker } = require('../utils/info');
+const { clamp, objectToListMap } = require('../utils/math');
+const { cardSetList, currentPool, setTranslate, cardTranslate, tradingOn, droppingCards, droppingDailies, cardDropWaitTime, dailyBlocker } = require('../utils/info');
 const { getDefaultEmbed } = require('../utils/stringy');
 const { cardTradeSessions, fetchSQL } = require('../utils/db');
 const { easyListItems } = require('../utils/math');
@@ -206,7 +206,6 @@ module.exports = {
 				let focusInitiator, focusTarget, focusSet;
 
 				// Initialize session details
-				const now = getCurrentTimestamp();
 				const sessionID = generateBase36String(16);
 
 				// Begin constructing embed, buttons
@@ -451,10 +450,12 @@ module.exports = {
 				});
 
 				buttonCollector.on('end', async () => {
-					console.log(buttonCollector.endreason);
-					const outputText = (buttonCollector.endreason ?? '').length > 0 ? buttonCollector.endreason : 'This trade timed out!';
-					await interaction.editReply({ embeds: [], components: [], content: outputText });
-					delete cardTradeSessions[sessionID];
+					if (sessionID in cardTradeSessions) {
+						console.log(buttonCollector.endreason);
+						const outputText = (buttonCollector.endreason ?? '').length > 0 ? buttonCollector.endreason : ('This trade timed out!');
+						await interaction.editReply({ embeds: [], components: [], content: outputText });
+						delete cardTradeSessions[sessionID];
+					}
 				});
 
 				const selectCollector = response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: tradeExpiryTime });

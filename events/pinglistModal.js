@@ -32,17 +32,17 @@ module.exports = {
 				await fetchSQL(query, [newName, name, serverID]);
 				await interaction.reply({ content: `Renamed pinglist \`${name}\` to \`${newName}\`.`, flags: MessageFlags.Ephemeral });
 			}
-		} else if (id.startsWith("pinglist_huddle")) {
-			const details = id.replace('pinglist_huddle_', '').split("_");
 			const [name, invoker, serverID] = details;
+		} else if (id.startsWith('pinglist_huddle')) {
+			const details = id.replace('pinglist_huddle_', '').split('_');
 			const target = interaction.fields.getTextInputValue(`pinglist_huddle_target_${name}_${serverID}`);
-			query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `snowflake` = ? AND `serverID` = ?';
+			const query = 'SELECT * FROM `pinglist` WHERE `name` = ? AND `snowflake` = ? AND `serverID` = ?';
 			const queryResult = await fetchSQL(query, [name, target, serverID]);
 			try {
 				const user = (await interaction.guild.members.fetch(target)) ?? null;
 				if (user) {
 					if (queryResult.length) {
-						const command = "UPDATE `pinglist` SET `record` = 'owner' WHERE `name` = ? AND `snowflake` = ? AND `serverID` = ?";
+						const command = 'UPDATE `pinglist` SET `record` = \'owner\' WHERE `name` = ? AND `snowflake` = ? AND `serverID` = ?';
 						await fetchSQL(command, [name, target, serverID]);
 						await interaction.reply({ content: `Successfully made the target part of the pinglist '${name}'!`, flags: MessageFlags.Ephemeral });
 					} else {
@@ -50,7 +50,7 @@ module.exports = {
 					}
 				}
 			} catch (e) {
-				await interaction.reply({ content: `Something went wrong. Please recheck your input.`, flags: MessageFlags.Ephemeral });
+				await interaction.reply({ content: 'Something went wrong. Please recheck your input.', flags: MessageFlags.Ephemeral });
 			}
 		}
 	},
