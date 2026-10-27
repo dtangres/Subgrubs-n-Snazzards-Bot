@@ -86,8 +86,7 @@ module.exports = {
 					return;
 				}
 				const today = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }).split(' ')[0].slice(0, -1).split('/');
-				// operate Regex to this
-				// 10/13/2023
+
 				const [month, day, year] = today.map(num => parseInt(num, 10));
 				const query = await fetchSQL(
 					'SELECT EXTRACT(YEAR FROM `last_daily`) AS `last_year`, \
@@ -116,7 +115,7 @@ module.exports = {
 					await botherChannel.send(await postCard({ set: set, name: name, desc: desc, content: `<@${interaction.user.id}>`, title: `Here's your drop for the day, \`${interaction.user.username}\`!`, spoiler: spoiler }));
 					await handlePlayerReward(interaction.user.id, set, name);
 					await fetchSQL('UPDATE `player` SET `last_daily` = ? WHERE `snowflake` = ?', [`${year}-${month}-${day}`, interaction.user.id]);
-					await interaction.reply({ content: 'You picked up your daily!', flags: MessageFlags.Ephemeral });
+					await interaction.editReply({ content: 'You picked up your daily!', flags: MessageFlags.Ephemeral });
 				} else if (!isEligibleDay) {
 					await interaction.reply({ content: 'Your next daily is available tomorrow!', flags: MessageFlags.Ephemeral });
 				} else {
