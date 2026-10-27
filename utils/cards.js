@@ -191,7 +191,7 @@ async function updateCooldown(snowflake, time) {
  * @param {Integer} time the time of the dorp in milliseconds since world epoch
  */
 async function handlePlayerReward(snowflake, set, name, time = 0) {
-	const binder = await fetchBinder(snowflake);
+	const binder = (await fetchBinder(snowflake)) ?? (await makeNewBinder());
 	await addCard(binder, set, name);
 	await pushBinder(snowflake, binder);
 	if (time > 0) {
