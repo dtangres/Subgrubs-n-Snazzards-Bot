@@ -10,7 +10,7 @@ const commandsGlobal = [];
 const commandsLocal = [];
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-const globalBlacklist = ['banish.js', 'patch.js', 'dev-achievements.js'];
+const globalBlacklist = ['banish.js', 'patch.js', 'dev-achievements.js', 'dev-level.js'];
 
 const commandConditions = JSON.parse(fs.readFileSync(path.join(__dirname, 'commands/commandConditions.json'), 'utf8'));
 
