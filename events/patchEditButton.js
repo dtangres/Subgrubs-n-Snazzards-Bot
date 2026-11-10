@@ -28,7 +28,7 @@ module.exports = {
 					.setValue(initialText)
 					.setMinLength(0)
 					.setMaxLength(4000);
-				const textLabel = LabelBuilder()
+				const textLabel = new LabelBuilder()
 					.setLabel('Item text for editing')
 					.setTextInputComponent(textBox);
 				modal.addLabelComponents(textLabel);
