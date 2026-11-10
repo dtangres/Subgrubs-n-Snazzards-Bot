@@ -22,7 +22,6 @@ module.exports = {
 			} else {
 				const textBox = new TextInputBuilder()
 					.setCustomId(`patchEditTextInput_${table}_${key}_${column}`)
-					.setLabel('Item text for editing')
 					.setStyle(TextInputStyle.Paragraph)
 					.setPlaceholder('You\'re gonna leave this blank? On god?')
 					.setValue(initialText)
